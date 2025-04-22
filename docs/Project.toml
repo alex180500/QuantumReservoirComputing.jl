@@ -1,0 +1,3 @@
+[deps]
+Documenter = "e30172f5-a6a5-5a46-863b-614d45cd2de4"
+QuantumReservoirComputing = "9262459b-dd6d-4254-9079-ce2b0ece8537"

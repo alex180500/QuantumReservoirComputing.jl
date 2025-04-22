@@ -1,6 +1,4 @@
-# partial oprations, ptrace
-# TODO ptranspose
-
+# partial trace for 2 qubits system
 function ptrace(ρ::AbstractMatrix{T}, keep::Int) where {T<:Number}
     ρ_tensor = reshape(ρ, 2, 2, 2, 2)
     red_ρ = Matrix{T}(undef, 2, 2)
@@ -18,6 +16,18 @@ function ptrace(ρ::AbstractMatrix{T}, keep::Int) where {T<:Number}
     return red_ρ
 end
 
+# partial trace for N qudits, where only one system is kept
+function ptrace(
+    ρ::AbstractMatrix{T},
+    keep::Int,
+    n_sys::Int;
+    d::Int=2
+) where {T<:Number}
+    return ptrace(ρ, (keep,), n_sys, d=d)
+end
+
+# partial trace for N qudits system with n_sys calculated automatically
+# from the size of the density matrix
 function ptrace(
     ρ::AbstractMatrix{T},
     ikeep::NTuple{N,Int};
@@ -27,6 +37,7 @@ function ptrace(
     return ptrace(ρ, ikeep, n_sys, d=d)
 end
 
+# partial trace for N qudits system
 function ptrace(
     ρ::AbstractMatrix{T},
     ikeep::NTuple{N,Int},
@@ -51,6 +62,7 @@ function ptrace(
     return state
 end
 
+# most generic partial trace, works for any num of systems and dimensions
 function ptrace(
     ρ::AbstractMatrix{T},
     ikeep::NTuple{N,Int},
