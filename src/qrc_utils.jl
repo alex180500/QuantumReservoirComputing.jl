@@ -32,9 +32,8 @@ function measure_diagonal(
 ) where {T<:Number}
     weights = Categorical(real(diag(ρ)))
     outcomes = zeros(Int, n_sys)
-    @inbounds for _ in 1:sample
-        state = rand(weights) - 1
-        outcomes .+= get_bit.(state, 1:n_sys)
+    @inbounds for state in rand(weights, sample)
+        outcomes .+= get_bit.(state - 1, 1:n_sys)
     end
     reverse!(outcomes)
     return @. 2 * outcomes / sample - 1

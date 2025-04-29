@@ -9,6 +9,7 @@ function get_bit(num::Integer, idx::Integer)
     return (num >> (idx - 1)) & 1
 end
 
+# given a matrix, this function returns the number of qubits
 function get_nqubits(mat::AbstractMatrix{T}) where {T<:Number}
     return Int(log2(size(mat, 1)))
 end

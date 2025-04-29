@@ -31,6 +31,7 @@ function haar_dm(n::Integer=2)
     return ψ * ψ'
 end
 
+# calculates the concurrence of a density matrix
 function concurrence(ρ::AbstractMatrix{T}) where {T<:Number}
     Y = sig_y ⊗ sig_y
     R = ρ * (Y * conj(ρ) * Y)
@@ -38,6 +39,7 @@ function concurrence(ρ::AbstractMatrix{T}) where {T<:Number}
     return max(0.0, λ[1] - λ[2] - λ[3] - λ[4])
 end
 
+# calculates the von Neumann entropy of a density matrix
 function vn_entropy(
     ρ::AbstractMatrix{T};
     tol::Float64=eps(real(T))
@@ -52,12 +54,14 @@ function vn_entropy(
     return S
 end
 
+# calculates the mutual information of a bipartite density matrix
 function mutual_info(ρ::AbstractMatrix{T}) where {T<:Number}
     ρ_A = ptrace(ρ, 1)
     ρ_B = ptrace(ρ, 2)
     return vn_entropy(ρ_A) + vn_entropy(ρ_B) - vn_entropy(ρ)
 end
 
+# fast average values of pauli matrices of a qubit (or 2)
 avg_z(ρ::Matrix{<:Number}) = real(ρ[1, 1] - ρ[2, 2])
 avg_x(ρ::Matrix{<:Number}) = real(ρ[1, 2] + ρ[2, 1])
 avg_y(ρ::Matrix{<:Number}) = real(im * (ρ[1, 2] - ρ[2, 1]))

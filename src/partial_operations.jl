@@ -82,7 +82,6 @@ function ptrace(
 end
 
 # private partial trace optimized function taken from https://github.com/QuantumBFS/Yao.jl
-
 @generated function _ptrace_dim!(
     ::Val{D},
     out::AbstractMatrix,
