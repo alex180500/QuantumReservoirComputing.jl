@@ -2,8 +2,8 @@ module QuantumReservoirComputing
 
 using LinearAlgebra: qr!, diag, Diagonal, eigvals, Hermitian, I
 using Random: AbstractRNG, default_rng, rand!
-using TensorOperations: tensortrace
 using Distributions: Categorical, Uniform
+using TensorOperations: tensortrace
 
 # constants useful for qubits, common operators
 export ket_0, ket_1, ket_p, ket_m
