@@ -1,7 +1,7 @@
 module QuantumReservoirComputing
 
 using LinearAlgebra: qr!, diag, Diagonal, eigvals, Hermitian, I
-using Random: AbstractRNG, default_rng
+using Random: AbstractRNG, default_rng, rand!
 using TensorOperations: tensortrace
 using Distributions: Categorical, Uniform
 
@@ -13,7 +13,7 @@ export eye2, ⊗
 include("constants.jl")
 
 # utils functions
-export get_mb, get_bit, get_nqubits
+export get_mb, get_bit, get_nsys
 include("generic_utils.jl")
 
 # network theory functions
@@ -26,18 +26,17 @@ include("networks.jl")
 export max_mixed, eye
 export haar_unitary, haar_state, haar_dm
 export concurrence, vn_entropy, mutual_info
-export avg_z, avg_x, avg_y, avg_zz
+export avg_z, avg_x, avg_y, avg_zz, avg_z_finite
 include("quantum_functions.jl")
 
 # partial operations, for now partial trace
 # TODO ptranspose
-export ptrace
+export ptrace, ptrace_diag
 include("partial_operations.jl")
 
 # operators, hamiltonians, unitaries and other utils for qrc
 # quantum statistics and measurements
-export local_ops
-export avg_z_finite, measure_diagonal, local_measure
+export local_ops, local_measure, quantum_measure, quantum_measure!
 export h_monroe_obc, h_monroe_pbc
 include("qrc_utils.jl")
 

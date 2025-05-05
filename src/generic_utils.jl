@@ -10,6 +10,11 @@ function get_bit(num::Integer, idx::Integer)
 end
 
 # given a matrix, this function returns the number of qubits
-function get_nqubits(mat::AbstractMatrix{T}) where {T<:Number}
+function get_nsys(mat::AbstractMatrix{T}) where {T<:Number}
     return Int(log2(size(mat, 1)))
+end
+
+# given a matrix, this function returns the number of qudits of dimension d
+function get_nsys(mat::AbstractMatrix{T}, d::Int) where {T<:Number}
+    return Int(log(d, size(mat, 1)))
 end

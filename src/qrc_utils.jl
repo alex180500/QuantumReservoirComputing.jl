@@ -11,40 +11,12 @@ function local_ops(op::Matrix{T}, n_sys::Integer) where {T<:Number}
     return all_ops
 end
 
-# calculates the average z component of a quantum state
-# given a density matrix ρ and multiple simulated measurement
-function avg_z_finite(
-    ρ::AbstractMatrix{T},
-    trials::Integer=1_000_000,
-    rng::AbstractRNG=default_rng()
-) where {T<:Number}
-    prob_up = real(ρ[1, 1])
-    net_spin = count(rand(rng) < prob_up for _ in 1:trials)
-    return 2 * net_spin / trials - 1
-end
-
-# calculates the averages of all local z pauli matrices
-# simulating many measurements of a quantum state ρ
-function measure_diagonal(
-    ρ::AbstractMatrix{T},
-    n_sys::Int=get_nqubits(ρ);
-    sample::Int=1_000_000
-) where {T<:Number}
-    weights = Categorical(real(diag(ρ)))
-    outcomes = zeros(Int, n_sys)
-    @inbounds for state in rand(weights, sample)
-        outcomes .+= get_bit.(state - 1, 1:n_sys)
-    end
-    reverse!(outcomes)
-    return @. 2 * outcomes / sample - 1
-end
-
 # local measurements for the full quantum state
 # when i want to measure all subsystems
 function local_measure(
     ρ::AbstractMatrix{T},
     meas::Function,
-    n_sys::Int=get_nqubits(ρ)
+    n_sys::Int=get_nsys(ρ)
 ) where {T<:Number}
     local_measure(ρ, meas, ntuple(i -> i, n_sys), n_sys)
 end
@@ -54,7 +26,7 @@ function local_measure(
     ρ::AbstractMatrix{T},
     meas::Function,
     qubits::NTuple{N,Int},
-    n_sys::Int=get_nqubits(ρ)
+    n_sys::Int=get_nsys(ρ)
 ) where {N,T<:Number}
     local_meas = Vector{Float64}(undef, N)
     @inbounds for (idx, q) in enumerate(qubits)
@@ -62,6 +34,49 @@ function local_measure(
         local_meas[idx] = meas(ρ_red)
     end
     return local_meas
+end
+
+# calculates the averages of all local z pauli matrices
+# simulating many measurements of a quantum state ρ
+function quantum_measure(
+    ρ::AbstractMatrix{T},
+    n_sys::Int=get_nsys(ρ);
+    sample::Int=1_000_000
+) where {T<:Number}
+    rand_states = Vector{Int}(undef, sample)
+    return quantum_measure!(rand_states, ρ, n_sys)
+end
+
+function quantum_measure!(
+    rand_states::AbstractVector{Int},
+    ρ::AbstractMatrix{T},
+    n_sys::Int=get_nsys(ρ)
+) where {T<:Number}
+    weight = Categorical(real(diag(ρ)))
+    rand!(weight, rand_states)
+    return get_binary_outcomes(rand_states, n_sys)
+end
+
+function quantum_measure!(
+    rand_states::AbstractVector{Int},
+    state_probs::AbstractVector{Float64},
+    n_sys::Int=length(state_probs)
+)
+    weight = Categorical(state_probs)
+    rand!(weight, rand_states)
+    return get_binary_outcomes(rand_states, n_sys)
+end
+
+function get_binary_outcomes(
+    rand_states::AbstractVector{Int},
+    n_sys::Int
+)
+    outcomes = zeros(Float64, n_sys)
+    @inbounds @simd for state in rand_states
+        outcomes .+= get_bit.(state - 1, 1:n_sys)
+    end
+    reverse!(outcomes)
+    return 2 .* outcomes ./ length(rand_states) .- 1
 end
 
 # interesting hamiltonians
