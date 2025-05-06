@@ -36,8 +36,10 @@ include("partial_operations.jl")
 
 # operators, hamiltonians, unitaries and other utils for qrc
 # quantum statistics and measurements
-export local_ops, local_measure, quantum_measure, quantum_measure!
+export local_ops, local_measure
+export quantum_measure, quantum_measure!, get_binary_outcomes
 export h_monroe_obc, h_monroe_pbc
 include("qrc_utils.jl")
+include("qrc_hamiltonians.jl")
 
 end # module QuantumReservoirComputing
