@@ -18,3 +18,21 @@ function get_network(
     end
     return adj_mat
 end
+
+# creates the edgelist from a quantum state
+# given a correlation function
+function get_edgelist(
+    ρ::Matrix{T},
+    correlation::Function,
+    n_qubits::Int=get_nsys(ρ)
+) where {T<:Number}
+    reduced_ρ = Matrix{ComplexF64}(undef, 4, 4)
+    edge_list = Vector{Float64}(undef, binomial(n_qubits, 2))
+    count = 1
+    @inbounds for i in 1:n_qubits, j in i+1:n_qubits
+        reduced_ρ::Matrix{ComplexF64} = ptrace(ρ, (i, j), n_qubits)
+        edge_list[count] = correlation(reduced_ρ)
+        count += 1
+    end
+    return edge_list
+end

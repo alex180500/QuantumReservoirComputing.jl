@@ -17,7 +17,7 @@ export get_mb, get_bit, get_nsys
 include("generic_utils.jl")
 
 # network theory functions
-export get_network, get_link_weight
+export get_network, get_link_weight, get_edgelist
 include("networks.jl")
 
 # quantum utils, haar random
@@ -25,9 +25,13 @@ include("networks.jl")
 # fast average values of pauli operators
 export max_mixed, eye
 export haar_unitary, haar_state, haar_dm
-export concurrence, vn_entropy, mutual_info
+include("quantum_utils.jl")
+
 export avg_z, avg_x, avg_y, avg_zz, avg_z_finite
-include("quantum_functions.jl")
+include("quantum_calculations.jl")
+
+export concurrence, vn_entropy, mutual_info
+include("quantum_correlations.jl")
 
 # partial operations, for now partial trace
 # TODO ptranspose
