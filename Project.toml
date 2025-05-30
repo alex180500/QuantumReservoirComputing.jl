@@ -1,7 +1,7 @@
 name = "QuantumReservoirComputing"
 uuid = "9262459b-dd6d-4254-9079-ce2b0ece8537"
 authors = ["Alessandro Romancino (@alex180500)"]
-version = "0.0.7"
+version = "0.0.10"
 
 [deps]
 LinearAlgebra = "37e2e46d-f89d-539d-b4ee-838fcccc9c8e"
@@ -12,4 +12,4 @@ TensorOperations = "6aa20fa7-93e2-5fca-9bc0-fbd0db3c71a2"
 [compat]
 julia = "1.11"
 Distributions = "0.25"
-TensorOperations = "~5.1"
+TensorOperations = "^5.1"

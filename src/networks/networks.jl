@@ -9,14 +9,8 @@ function get_network(
     correlation::Function,
     n_qubits::Int=get_nsys(ρ)
 ) where {T<:Number}
-    reduced_ρ = Matrix{ComplexF64}(undef, 4, 4)
-    adj_mat = zeros(Float64, n_qubits, n_qubits)
-    for i in 1:n_qubits, j in i+1:n_qubits
-        reduced_ρ::Matrix{ComplexF64} = ptrace(ρ, (i, j), n_qubits)
-        corr_ij::Float64 = correlation(reduced_ρ)
-        adj_mat[i, j] = adj_mat[j, i] = corr_ij
-    end
-    return adj_mat
+    edge_list = get_edgelist(ρ, correlation, n_qubits)
+    return edges_to_adj(edge_list, n_qubits)
 end
 
 # creates the edgelist from a quantum state
@@ -26,13 +20,30 @@ function get_edgelist(
     correlation::Function,
     n_qubits::Int=get_nsys(ρ)
 ) where {T<:Number}
-    reduced_ρ = Matrix{ComplexF64}(undef, 4, 4)
     edge_list = Vector{Float64}(undef, binomial(n_qubits, 2))
     count = 1
     @inbounds for i in 1:n_qubits, j in i+1:n_qubits
         reduced_ρ::Matrix{ComplexF64} = ptrace(ρ, (i, j), n_qubits)
-        edge_list[count] = correlation(reduced_ρ)
+        edge_list[count] = correlation(reduced_ρ)::Float64
         count += 1
     end
     return edge_list
+end
+
+function edges_to_adj(edge_list::Vector{Float64}, n_qubits::Int)
+    adj_mat = zeros(Float64, n_qubits, n_qubits)
+    count = 1
+    @inbounds for i in 1:n_qubits, j in i+1:n_qubits
+        adj_mat[i, j] = adj_mat[j, i] = edge_list[count]
+        count += 1
+    end
+    return adj_mat
+end
+
+function get_mi_nets(list_ρs::Vector{Matrix{ComplexF64}}, n_sys::Int)
+    evol_nets = Matrix{Float64}(undef, binomial(n_sys, 2), length(list_ρs))
+    Threads.@threads for i in eachindex(list_ρs)
+        evol_nets[:, i] = get_edgelist(list_ρs[i], mutual_info, n_sys)
+    end
+    return evol_nets
 end

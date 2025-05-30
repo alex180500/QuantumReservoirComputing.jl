@@ -1,3 +1,13 @@
+# given a matrix or vector, this function returns the number of qubits
+function get_nsys(mat::AbstractVecOrMat{T}) where {T<:Number}
+    return Int(log2(size(mat, 1)))
+end
+
+# given a matrix or vector, this function returns the number of qudits of dimension d
+function get_nsys(mat::AbstractVecOrMat{T}, d::Int) where {T<:Number}
+    return Int(log(d, size(mat, 1)))
+end
+
 # creates a maximally mixed state of dimension dim
 function max_mixed(dim::Integer)
     return Matrix{ComplexF64}(I, dim, dim) / dim
