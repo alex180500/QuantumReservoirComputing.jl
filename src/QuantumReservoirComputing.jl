@@ -4,6 +4,7 @@ using LinearAlgebra: qr!, diag, Diagonal, eigvals, Hermitian, I, eigen
 using Random: AbstractRNG, default_rng, rand!
 using Distributions: Categorical, Uniform, Multinomial
 using TensorOperations: tensortrace
+using MultivariateStats: PCA, fit, transform
 
 # utils functions
 export get_mb, count_unique
@@ -50,5 +51,9 @@ export local_measure, local_measure!, local_measure_d, local_measure_d!
 export quantum_measure, quantum_measure!, simulated_measure, simulated_measure!
 export get_binary_outcomes!
 include("qrc_measurements.jl")
+
+# machine learning functions
+export pca_analysis
+include("ml_functions.jl")
 
 end # module QuantumReservoirComputing
