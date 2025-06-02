@@ -20,6 +20,39 @@ end
 
 # creates a unitary matrix from the hamiltonian
 function get_unitary(H::AbstractMatrix{T}, δt::Real) where {T<:Number}
-    h_eigvals, h_eigvecs = eigen(H)
-    return h_eigvecs * exp(Diagonal(-im * δt .* h_eigvals)) * h_eigvecs'
+    # h_eigvals, h_eigvecs = eigen(H)
+    # return h_eigvecs * exp(Diagonal(-im * δt .* h_eigvals)) * h_eigvecs'
+    return cis(-δt * H)
+end
+
+function get_probabilities(ψ::AbstractVector{T}) where {T<:Number}
+    probs = Vector{Float64}(undef, length(ψ))
+    get_probabilities!(probs, ψ)
+    return probs
+end
+
+function get_probabilities!(
+    probs::AbstractVector{Float64},
+    ψ::AbstractVector{T}
+) where {T<:Number}
+    @inbounds for i in eachindex(probs)
+        probs[i] = abs2(ψ[i])
+    end
+    return probs
+end
+
+function get_probabilities(ρ::AbstractMatrix{T}) where {T<:Number}
+    probs = Vector{Float64}(undef, size(ρ, 1))
+    get_probabilities!(probs, ρ)
+    return probs
+end
+
+function get_probabilities!(
+    probs::AbstractVector{Float64},
+    ρ::AbstractMatrix{T}
+) where {T<:Number}
+    @inbounds for i in eachindex(probs)
+        probs[i] = real(ρ[i, i])
+    end
+    return probs
 end

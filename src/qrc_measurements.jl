@@ -123,8 +123,18 @@ function simulated_measure!(
     state_probs::AbstractVector{Float64},
     n_samples::Int
 )
+    counts = Vector{Int}(undef, length(state_probs))
+    return simulated_measure!(outcomes, state_probs, counts, n_samples)
+end
+
+function simulated_measure!(
+    outcomes::AbstractVector{Float64},
+    state_probs::AbstractVector{Float64},
+    counts::AbstractVector{Int},
+    n_samples::Int
+)
     distr = Multinomial(n_samples, state_probs)
-    counts = rand(distr)
+    rand!(distr, counts)
     return get_binary_outcomes!(outcomes, counts, n_samples)
 end
 

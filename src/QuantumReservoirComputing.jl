@@ -1,19 +1,22 @@
 module QuantumReservoirComputing
 
-using LinearAlgebra: qr!, diag, Diagonal, eigvals, Hermitian, I, eigen
-using Random: AbstractRNG, default_rng, rand!
 using Distributions: Categorical, Uniform, Multinomial
-using TensorOperations: tensortrace
+using LinearAlgebra:
+    qr!, diag, Diagonal, eigvals, Hermitian, I, eigen
 using MultivariateStats: PCA, fit, transform
+using Random: AbstractRNG, default_rng, rand!
+using TensorOperations: tensortrace
 
 # utils functions
-export get_mb, count_unique
+export get_mb, count_unique, eigvals_2x2
 include("utils/generic.jl")
 export get_bit, get_bit_table
 include("utils/bits.jl")
 
 # network theory functions
-export get_network, get_link_weight, get_edgelist
+export get_link_weight, edges_to_adj
+export get_network, get_edgelist, get_edgelist!
+export get_mi_nets
 include("networks/networks.jl")
 
 # constants useful for qubits, common operators
@@ -35,6 +38,7 @@ include("quantum/correlations.jl")
 # quantum operators functions
 export avg_z, avg_x, avg_y, avg_zz
 export local_ops, get_unitary
+export get_probabilities, get_probabilities!
 include("quantum/operators.jl")
 
 # partial operations (TODO partial transpose)
@@ -43,12 +47,14 @@ export ptrace_d, ptrace_qubits_d
 include("quantum/partial.jl")
 
 # hamiltonians, unitaries
-export h_monroe_obc, h_monroe_pbc
+export xx_monroe_obc, xx_monroe_pbc, z_noisy
+export h_monroe
 include("qrc_hamiltonians.jl")
 
 # quantum statistics and measurements for qrc
 export local_measure, local_measure!, local_measure_d, local_measure_d!
-export quantum_measure, quantum_measure!, simulated_measure, simulated_measure!
+export quantum_measure, quantum_measure!
+export simulated_measure, simulated_measure!
 export get_binary_outcomes!
 include("qrc_measurements.jl")
 

@@ -11,3 +11,17 @@ function count_unique(arr::Vector{Int}, M::Int=maximum(arr))
     end
     return cu
 end
+
+function eigvals_2x2(mat::AbstractMatrix{ComplexF64})
+    @inbounds begin
+        a = mat[1, 1]
+        b = mat[1, 2]
+        d = mat[2, 2]
+    end
+    δ = a - d
+    disc = sqrt(muladd(δ, δ, 4 * abs2(b)))
+    t = (a + d)
+    λ1 = (t - disc) / 2
+    λ2 = (t + disc) / 2
+    return Float64[λ1, λ2]
+end
