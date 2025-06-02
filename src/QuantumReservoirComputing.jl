@@ -16,7 +16,6 @@ include("utils/bits.jl")
 # network theory functions
 export get_link_weight, edges_to_adj
 export get_network, get_edgelist, get_edgelist!
-export get_mi_nets
 include("networks/networks.jl")
 
 # constants useful for qubits, common operators

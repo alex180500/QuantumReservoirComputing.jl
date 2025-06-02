@@ -49,19 +49,19 @@ function edges_to_adj(edge_list::Vector{Float64}, n_qubits::Int)
     return adj_mat
 end
 
-function get_mi_nets(list_ρs::Vector{Matrix{ComplexF64}}, n_sys::Int)
-    evol_nets = Matrix{Float64}(undef, binomial(n_sys, 2), length(list_ρs))
-    Threads.@threads for i in eachindex(list_ρs)
-        get_edgelist!(view(evol_nets, :, i), list_ρs[i], mutual_info, n_sys)
-    end
-    return evol_nets
-end
+# function get_mi_nets(list_ρs::Vector{Matrix{ComplexF64}}, n_sys::Int)
+#     evol_nets = Matrix{Float64}(undef, binomial(n_sys, 2), length(list_ρs))
+#     Threads.@threads for i in eachindex(list_ρs)
+#         get_edgelist!(view(evol_nets, :, i), list_ρs[i], mutual_info, n_sys)
+#     end
+#     return evol_nets
+# end
 
-function get_mi_nets(states::Matrix{ComplexF64}, n_sys::Int)
-    evol_nets = Matrix{Float64}(undef, binomial(n_sys, 2), size(states, 2))
-    Threads.@threads for i in axes(states, 2)
-        ρ = states[:, i] * states[:, i]'
-        get_edgelist!(view(evol_nets, :, i), ρ, mutual_info, n_sys)
-    end
-    return evol_nets
-end
+# function get_mi_nets(states::Matrix{ComplexF64}, n_sys::Int)
+#     evol_nets = Matrix{Float64}(undef, binomial(n_sys, 2), size(states, 2))
+#     Threads.@threads for i in axes(states, 2)
+#         ρ = states[:, i] * states[:, i]'
+#         get_edgelist!(view(evol_nets, :, i), ρ, mutual_info, n_sys)
+#     end
+#     return evol_nets
+# end
