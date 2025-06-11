@@ -9,8 +9,8 @@ end
 # calculates the von Neumann entropy of a density matrix
 function vn_entropy(
     all_λ::AbstractVector{T};
-    tol::Float64=eps(real(T))
-) where {T<:Number}
+    tol::Real=eps(real(T))
+) where {T<:Real}
     S = 0.0
     @inbounds for λ in all_λ
         if λ > tol
@@ -22,15 +22,18 @@ end
 
 function vn_entropy(
     ρ::AbstractMatrix{T};
-    tol::Float64=eps(real(T))
+    tol::Real=eps(real(T))
 ) where {T<:Number}
     all_λ = eigvals(Hermitian(ρ))
-    return vn_entropy(all_λ, tol=tol)
+    return vn_entropy(all_λ; tol)
 end
 
 # calculates the mutual information of a bipartite density matrix
-function mutual_info(ρ::AbstractMatrix{T}; tol=eps(real(T))) where {T<:Number}
-    ρ_A = eigvals_2x2(ptrace_2qubits(ρ, 1))
-    ρ_B = eigvals_2x2(ptrace_2qubits(ρ, 2))
+function mutual_info(
+    ρ::AbstractMatrix{T};
+    tol::Real=eps(real(T))
+) where {T<:Number}
+    ρ_A = eigvals_2(ptrace_2qubits(ρ, 1))
+    ρ_B = eigvals_2(ptrace_2qubits(ρ, 2))
     return vn_entropy(ρ_A; tol) + vn_entropy(ρ_B; tol) - vn_entropy(ρ; tol)
 end

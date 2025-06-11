@@ -6,7 +6,7 @@ end
 
 # create a BitMatrix where a column is the binary representation of the integer i
 # for i = 0, 1, ..., 2^N-1
-function get_bit_table(num::Int)
+function get_bit_table(num::Integer)
     M = 2^num
     # create the vector 0,1,…,2^N–1 as UInt
     indices = UInt.(0:M-1)

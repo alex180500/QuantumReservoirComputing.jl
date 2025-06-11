@@ -1,12 +1,11 @@
 # local measurements for the full quantum state
-
 function local_measure!(
-    local_meas::AbstractVector{Float64},
+    local_meas::AbstractVector{S},
     ρ::AbstractMatrix{T},
-    meas::F,
+    meas::Function,
     qubits::NTuple{N,Int},
-    n_sys::Int=get_nsys(ρ)
-) where {N,T<:Number,F<:Function}
+    n_sys::Integer=get_nsys(ρ)
+) where {N,T<:Number,S<:Real}
     @inbounds for i in eachindex(qubits)
         ρ_red = ptrace_qubits(ρ, qubits[i], n_sys)
         local_meas[i] = meas(ρ_red)::Float64
@@ -16,84 +15,48 @@ end
 
 function local_measure(
     ρ::AbstractMatrix{T},
-    meas::F,
+    meas::Function,
     qubits::NTuple{N,Int},
-    n_sys::Int=get_nsys(ρ)
-) where {N,T<:Number,F<:Function}
+    n_sys::Integer=get_nsys(ρ)
+) where {N,T<:Number}
     local_meas = Vector{Float64}(undef, N)
-    local_measure!(local_meas, ρ, meas, qubits, n_sys)
-    return local_meas
+    return local_measure!(local_meas, ρ, meas, qubits, n_sys)
 end
 
 function local_measure(
     ρ::AbstractMatrix{T},
-    meas::F=avg_z,
-    n_sys::Int=get_nsys(ρ)
-) where {T<:Number,F<:Function}
-    local_measure(ρ, meas, ntuple(i -> i, n_sys), n_sys)
-end
-
-# local measuremenet but only use the diagonal part
-
-function local_measure_d!(
-    local_meas::AbstractVector{Float64},
-    ρ::AbstractMatrix{T},
-    meas::F,
-    qubits::NTuple{N,Int},
-    n_sys::Int=get_nsys(ρ)
-) where {N,T<:Number,F<:Function}
-    @inbounds for i in eachindex(qubits)
-        ρ_red = ptrace_qubits_d(ρ, qubits[i], n_sys)
-        local_meas[i] = meas(ρ_red)::Float64
-    end
-    return local_meas
-end
-
-function local_measure_d(
-    ρ::AbstractMatrix{T},
-    meas::F,
-    qubits::NTuple{N,Int},
-    n_sys::Int=get_nsys(ρ)
-) where {N,T<:Number,F<:Function}
-    local_meas = Vector{Float64}(undef, N)
-    local_measure_d!(local_meas, ρ, meas, qubits, n_sys)
-    return local_meas
-end
-
-function local_measure_d(
-    ρ::AbstractMatrix{T},
-    meas::F,
-    n_sys::Int=get_nsys(ρ)
-) where {T<:Number,F<:Function}
-    local_measure_d(ρ, meas, ntuple(i -> i, n_sys), n_sys)
+    meas::Function=avg_z,
+    n_sys::Integer=get_nsys(ρ)
+) where {T<:Number}
+    return local_measure(ρ, meas, ntuple(i -> i, n_sys), n_sys)
 end
 
 # calculates the averages of all local z pauli matrices
 # simulating many measurements of a quantum state ρ
-function quantum_measure(
+function montecarlo_measure(
     ρ::AbstractMatrix{T},
-    n_sys::Int=get_nsys(ρ);
-    sample::Int=1_000_000
+    n_sys::Integer=get_nsys(ρ);
+    n_samples::Integer=1_000_000
 ) where {T<:Number}
-    ρ_populations::Vector{Float64} = real(diag(ρ))
-    return quantum_measure(ρ_populations, n_sys, sample=sample)
+    ρ_populations = get_probabilities(ρ)::Vector{Float64}
+    return montecarlo_measure(ρ_populations, n_sys; n_samples)
 end
 
-function quantum_measure(
-    state_probs::AbstractVector{Float64},
-    n_sys::Int=get_nsys(state_probs);
-    n_samples::Int=1_000_000
-)
+function montecarlo_measure(
+    state_probs::AbstractVector{T},
+    n_sys::Integer=get_nsys(state_probs);
+    n_samples::Integer=1_000_000
+) where {T<:Real}
     outcomes = zeros(Float64, n_sys)
     rand_states = Vector{Int}(undef, n_samples)
-    return quantum_measure!(outcomes, rand_states, state_probs)
+    return montecarlo_measure!(outcomes, rand_states, state_probs)
 end
 
-function quantum_measure!(
-    outcomes::AbstractVector{Float64},
-    rand_states::AbstractVector{Int},
-    state_probs::AbstractVector{Float64}
-)
+function montecarlo_measure!(
+    outcomes::AbstractVector{S},
+    rand_states::AbstractVector{I},
+    state_probs::AbstractVector{T}
+) where {S<:AbstractFloat,I<:Integer,T<:Real}
     weight = Categorical(state_probs)
     rand!(weight, rand_states)
     counts = count_unique(rand_states, length(state_probs))
@@ -104,35 +67,35 @@ end
 
 function simulated_measure(
     ρ::AbstractMatrix{T},
-    n_samples::Int=1_000_000
+    n_samples::Integer=1_000_000
 ) where {T<:Number}
-    state_probs = real(diag(ρ))
+    state_probs = get_probabilities(ρ)
     return simulated_measure(state_probs, n_samples)
 end
 
 function simulated_measure(
-    state_probs::AbstractVector{Float64},
-    n_samples::Int=1_000_000
-)
+    state_probs::AbstractVector{T},
+    n_samples::Integer=1_000_000
+) where {T<:Real}
     outcomes = zeros(Float64, length(state_probs))
     return simulated_measure!(outcomes, state_probs, n_samples)
 end
 
 function simulated_measure!(
-    outcomes::AbstractVector{Float64},
-    state_probs::AbstractVector{Float64},
-    n_samples::Int
-)
+    outcomes::AbstractVector{S},
+    state_probs::AbstractVector{T},
+    n_samples::Integer
+) where {S<:AbstractFloat,T<:Real}
     counts = Vector{Int}(undef, length(state_probs))
-    return simulated_measure!(outcomes, state_probs, counts, n_samples)
+    return simulated_measure!(outcomes, counts, state_probs, n_samples)
 end
 
 function simulated_measure!(
-    outcomes::AbstractVector{Float64},
-    state_probs::AbstractVector{Float64},
-    counts::AbstractVector{Int},
-    n_samples::Int
-)
+    outcomes::AbstractVector{S},
+    counts::AbstractVector{I},
+    state_probs::AbstractVector{T},
+    n_samples::Integer
+) where {S<:AbstractFloat,I<:Integer,T<:Real}
     distr = Multinomial(n_samples, state_probs)
     rand!(distr, counts)
     return get_binary_outcomes!(outcomes, counts, n_samples)
@@ -141,18 +104,18 @@ end
 # common function to get the binary outcomes
 
 function get_binary_outcomes!(
-    outcomes::AbstractVector{Float64},
-    counts::AbstractVector{Int},
-    n_samples::Int=sum(counts)
-)
+    outcomes::AbstractVector{S},
+    weights::AbstractVector{T},
+    total_weight::T=sum(weights)
+) where {T<:Real,S<:AbstractFloat}
     fill!(outcomes, 0.0)
-    @inbounds for (idx, c) in enumerate(counts)
+    @inbounds for (idx, w) in enumerate(weights)
         state = idx - 1
         for qubit in eachindex(outcomes)
-            outcomes[qubit] += c * get_bit(state, qubit)
+            outcomes[qubit] += w * get_bit(state, qubit)
         end
     end
     reverse!(outcomes)
-    @. outcomes = 1 - 2 * outcomes / n_samples
+    @. outcomes = 1 - 2 * outcomes / total_weight
     return outcomes
 end

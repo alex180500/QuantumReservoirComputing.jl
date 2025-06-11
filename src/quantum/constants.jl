@@ -19,3 +19,5 @@ const sig_m = Matrix{ComplexF64}([0 0; 1 0])
 # some other stuff
 const eye2 = Matrix{ComplexF64}([1 0; 0 1])
 const ⊗ = kron
+
+const LocalOperators{T<:Number} = AbstractVector{<:AbstractMatrix{T}}

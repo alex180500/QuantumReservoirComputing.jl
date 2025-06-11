@@ -4,7 +4,7 @@ function get_nsys(mat::AbstractVecOrMat{T}) where {T<:Number}
 end
 
 # given a matrix or vector, this function returns the number of qudits of dimension d
-function get_nsys(mat::AbstractVecOrMat{T}, d::Int) where {T<:Number}
+function get_nsys(mat::AbstractVecOrMat{T}, d::Integer) where {T<:Number}
     return Int(log(d, size(mat, 1)))
 end
 

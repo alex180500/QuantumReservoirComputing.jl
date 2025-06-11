@@ -4,7 +4,10 @@ function get_mb(item)
 end
 
 # counts the number of unique integers in a vector
-function count_unique(arr::Vector{Int}, M::Int=maximum(arr))
+function count_unique(
+    arr::AbstractVector{T},
+    M::T=maximum(arr)
+) where {T<:Integer}
     cu = zeros(Int, M)
     @inbounds for i in eachindex(arr)
         cu[arr[i]] += 1
@@ -12,7 +15,7 @@ function count_unique(arr::Vector{Int}, M::Int=maximum(arr))
     return cu
 end
 
-function eigvals_2x2(mat::AbstractMatrix{ComplexF64})
+function eigvals_2(mat::AbstractMatrix{T}) where {T<:Number}
     @inbounds begin
         a = mat[1, 1]
         b = mat[1, 2]
