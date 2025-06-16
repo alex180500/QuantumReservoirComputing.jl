@@ -1,20 +1,28 @@
 module QuantumReservoirComputing
 
-using Distributions: Categorical, Uniform, Multinomial
+# Standard library
 using LinearAlgebra: qr!, diag, Diagonal, eigvals, Hermitian, I, eigen
-using MultivariateStats: PCA, fit, transform
 using Random: AbstractRNG, default_rng, rand!
+using Base.Threads: @threads
+
+# External packages
+using Distributions: Categorical, Uniform, Multinomial
+using MultivariateStats: PCA, fit, transform
 using TensorOperations: tensortrace
 
-# utils functions
+# utils functions for bit operations
 export get_bit, get_bit_table
 include("utils/bits.jl")
+
+# some generic utils functions
 export get_mb, count_unique, eigvals_2
 include("utils/generic.jl")
 
 # network theory functions
 export get_link_weight, edges_to_adj
 include("networks/networks.jl")
+
+# quantum networks functions
 export node_entropies!, correlation_network
 export correlation_edgelist, correlation_edgelist!
 include("networks/q_networks.jl")
@@ -50,17 +58,21 @@ include("quantum/partial.jl")
 # hamiltonians, unitaries
 export xx_monroe_obc, xx_monroe_pbc, z_noisy
 export h_monroe
-include("qrc_hamiltonians.jl")
+include("qrc/hamiltonians.jl")
 
 # quantum statistics and measurements for qrc
 export local_measure, local_measure!
 export montecarlo_measure, montecarlo_measure!
 export simulated_measure, simulated_measure!
 export get_binary_outcomes!
-include("qrc_measurements.jl")
+include("qrc/measurements.jl")
+
+# simulations function for qelm for pure states
+export qelm_compute, qelm_compute_networks
+include("qrc/qrc_tools.jl")
 
 # machine learning functions
 export pca_analysis, rescale_data
-include("ml_functions.jl")
+include("utils/ml_functions.jl")
 
 end # module QuantumReservoirComputing
