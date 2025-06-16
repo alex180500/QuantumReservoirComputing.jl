@@ -73,6 +73,8 @@ include("qrc/qrc_tools.jl")
 
 # machine learning functions
 export pca_analysis, rescale_data
-include("utils/ml_functions.jl")
+include("ml/functions.jl")
+
+# TODO: FLUX SETUP
 
 end # module QuantumReservoirComputing

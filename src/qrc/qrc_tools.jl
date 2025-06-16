@@ -14,7 +14,7 @@ function qelm_compute_networks(
         correlation_edgelist!(view(mi_net_t, :, i), ρ, mutual_info, nq)
         node_entropies!(view(entropy_t, :, i), ρ, nq)
     end
-    return probs_t, mi_net_t, entropy_t
+    return (probs=probs_t, networks=mi_net_t, entropies=entropy_t)
 end
 
 function qelm_compute(
