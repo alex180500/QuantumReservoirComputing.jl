@@ -8,15 +8,12 @@ function get_nsys(mat::AbstractVecOrMat{T}, d::Integer) where {T<:Number}
     return Int(log(d, size(mat, 1)))
 end
 
-# creates a maximally mixed state of dimension dim
-function max_mixed(dim::Integer)
-    return Matrix{ComplexF64}(I, dim, dim) / dim
-end
-
 # creates an identity matrix of dimension dim
-function eye(dim::Integer)
-    return Matrix{ComplexF64}(I, dim, dim)
-end
+@memoize eye(dim::Integer) = Matrix{ComplexF64}(I, dim, dim)
+@memoize eye_qubits(n_sys::Integer) = eye(2^n_sys)
+
+# creates a maximally mixed state of dimension dim
+@memoize max_mixed(dim::Integer) = eye(dim) / dim
 
 # calculates a random Haar distributed unitary matrix
 function haar_unitary(n::Integer=2)
