@@ -9,10 +9,11 @@ using Base.Threads: @threads
 
 # External packages
 using Distributions: Categorical, Uniform, Multinomial
+using Flux
 using Memoization: @memoize
 using MultivariateStats: PCA, fit, transform
+using ProgressMeter: Progress, next!
 using TensorOperations: tensortrace
-using Flux
 
 # === UTILITIES (foundation Layer - no dependencies) ===
 # utils functions for bit operations
@@ -94,6 +95,7 @@ export qelm_compute, qelm_compute_networks
 export pca_analysis, rescale_data, accuracy
 include("ml/functions.jl")
 
-# TODO: FLUX SETUP
+include("ml/linear.jl")
+include("ml/progress.jl")
 
 end # module QuantumReservoirComputing
