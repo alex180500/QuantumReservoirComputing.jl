@@ -95,7 +95,10 @@ export qelm_compute, qelm_compute_networks
 export pca_analysis, rescale_data, accuracy
 include("ml/functions.jl")
 
+export train_epoch!, nn_layer
 include("ml/linear.jl")
+
+export ml_showvalues, @trainprogress
 include("ml/progress.jl")
 
 end # module QuantumReservoirComputing
