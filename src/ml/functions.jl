@@ -33,3 +33,12 @@ function rescale_data(
     end
     return scaled_train, scaled_test
 end
+
+function accuracy(
+    model::Flux.Chain,
+    x::AbstractMatrix{T},
+    classes::AbstractVector{I},
+    y::AbstractVector{I}
+) where {T<:AbstractFloat,I<:Integer}
+    return mean(Flux.onecold(model(x), classes) .== y)
+end
