@@ -28,3 +28,26 @@ function eigvals_2(mat::AbstractMatrix{T}) where {T<:Number}
     λ2 = (t + disc) / 2
     return Float64[λ1, λ2]
 end
+
+function get_mean_last(
+    data::AbstractVector{T},
+    last_n::Integer=10
+) where {T<:Real}
+    mean(data[end-last_n:end])
+end
+
+function get_average_data(
+    data::AbstractMatrix{T},
+    last_n::Integer=10;
+    return_std::Bool=true
+) where {T<:Real}
+    n_ensemble = size(data, 2)
+    data_vec = Vector{Float64}(undef, n_ensemble)
+    @inbounds for i in eachindex(data_vec)
+        data_vec[i] = get_mean_last(data[:, i], last_n)
+    end
+    if return_std
+        return mean(data_vec), std(data_vec)
+    end
+    return mean(data_vec), std(data_vec)
+end

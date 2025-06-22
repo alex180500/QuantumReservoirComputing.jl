@@ -4,7 +4,7 @@ module QuantumReservoirComputing
 using LinearAlgebra:
     qr!, diag, Diagonal, eigvals, Hermitian, I, eigen, kron!, kron
 using Random: AbstractRNG, default_rng, rand!
-using Statistics: mean
+using Statistics: mean, std
 using Base.Threads: @threads
 
 # External packages
@@ -23,6 +23,7 @@ export get_bit, get_bit_table
 # some generic utils functions
 include("utils/generic.jl")
 export get_mb, count_unique, eigvals_2
+export get_mean_last, get_average_data
 
 # === QUANTUM CONSTANTS (foundation layer) ===
 # constants useful for qubits, common operators
