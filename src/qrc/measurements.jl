@@ -59,7 +59,7 @@ function montecarlo_measure!(
 ) where {S<:AbstractFloat,I<:Integer,T<:Real}
     weight = Categorical(state_probs)
     rand!(weight, rand_states)
-    counts = count_unique(rand_states, length(state_probs))
+    counts = count_unique(rand_states)
     return get_binary_outcomes!(outcomes, counts, length(rand_states))
 end
 

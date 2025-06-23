@@ -4,15 +4,18 @@ function get_mb(item)
 end
 
 # counts the number of unique integers in a vector
-function count_unique(
-    arr::AbstractVector{T},
-    M::T=maximum(arr)
-) where {T<:Integer}
-    cu = zeros(Int, M)
+function count_unique(arr::AbstractVector{T}) where {T<:Integer}
+    m, M = extrema(arr)
+    cu = zeros(Int, M - m + 1)
     @inbounds for i in eachindex(arr)
-        cu[arr[i]] += 1
+        cu[arr[i]-m+1] += 1
     end
     return cu
+end
+
+function count_unique_dict(arr::AbstractVector{T}) where {T<:Integer}
+    cu = count_unique(arr)
+    return Pair.(eachindex(cu) .+ m .- 1, cu)
 end
 
 function eigvals_2(mat::AbstractMatrix{T}) where {T<:Number}
@@ -31,14 +34,14 @@ end
 
 function get_mean_last(
     data::AbstractVector{T},
-    last_n::Integer=10
+    last_n::Integer
 ) where {T<:Real}
     mean(data[end-last_n:end])
 end
 
 function get_average_data(
     data::AbstractMatrix{T},
-    last_n::Integer=10;
+    last_n::Integer=size(data, 1);
     return_std::Bool=true
 ) where {T<:Real}
     n_ensemble = size(data, 2)
@@ -49,5 +52,5 @@ function get_average_data(
     if return_std
         return mean(data_vec), std(data_vec)
     end
-    return mean(data_vec), std(data_vec)
+    return mean(data_vec)
 end

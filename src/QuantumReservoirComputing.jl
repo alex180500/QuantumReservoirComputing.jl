@@ -22,7 +22,7 @@ export get_bit, get_bit_table
 
 # some generic utils functions
 include("utils/generic.jl")
-export get_mb, count_unique, eigvals_2
+export get_mb, eigvals_2, count_unique, count_unique_dict
 export get_mean_last, get_average_data
 
 # === QUANTUM CONSTANTS (foundation layer) ===
