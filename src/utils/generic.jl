@@ -15,7 +15,7 @@ end
 
 function count_unique_dict(arr::AbstractVector{T}) where {T<:Integer}
     cu = count_unique(arr)
-    return Pair.(eachindex(cu) .+ m .- 1, cu)
+    return Pair.(eachindex(cu) .+ minimum(arr) .- 1, cu)
 end
 
 function eigvals_2(mat::AbstractMatrix{T}) where {T<:Number}

@@ -17,3 +17,12 @@ function edges_to_adj(
     end
     return adj_mat
 end
+
+function laplacian(A::AbstractMatrix{T}) where {T<:Real}
+    D = Diagonal(degrees(A))
+    return D - A
+end
+
+function degrees(A::AbstractMatrix{T}) where {T<:Real}
+    return vec(sum(A, dims=1))
+end

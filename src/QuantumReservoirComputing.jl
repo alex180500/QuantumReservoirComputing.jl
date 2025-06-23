@@ -66,6 +66,12 @@ export LocalOperators
 # network theory functions
 include("networks/networks.jl")
 export get_link_weight, edges_to_adj
+export degrees, laplacian
+
+# === NETWORK METRICS (depends on network theory) ===
+# network metrics functions
+include("networks/metrics.jl")
+export laplacian_spectrum, algebraic_connectivity
 
 # === QUANTUM NETWORKS (depends on correlations and network theory) ===
 # quantum networks functions
