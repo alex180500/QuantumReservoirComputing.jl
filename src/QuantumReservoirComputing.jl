@@ -22,16 +22,19 @@ export get_bit, get_bit_table
 
 # some generic utils functions
 include("utils/generic.jl")
-export get_mb, eigvals_2, count_unique, count_unique_dict
+export get_mb, count_unique, count_unique_dict
 export get_mean_last, get_average_data
+
+# some matrix utils function
+include("utils/matrices.jl")
+export ⊗, ⊕, direct_sum, eigvals_2
 
 # === QUANTUM CONSTANTS (foundation layer) ===
 # constants useful for qubits, common operators
 include("quantum/constants.jl")
 export ket_0, ket_1, ket_p, ket_m
 export rho_0, rho_1, rho_mix, rho_p, rho_m
-export sig_x, sig_y, sig_z, sig_p, sig_m
-export eye2, ⊗
+export sig_x, sig_y, sig_z, sig_p, sig_m, eye2
 
 # === QUANTUM UTILITIES (depends on constants) ===
 # quantum utils

@@ -18,20 +18,6 @@ function count_unique_dict(arr::AbstractVector{T}) where {T<:Integer}
     return Pair.(eachindex(cu) .+ minimum(arr) .- 1, cu)
 end
 
-function eigvals_2(mat::AbstractMatrix{T}) where {T<:Number}
-    @inbounds begin
-        a = mat[1, 1]
-        b = mat[1, 2]
-        d = mat[2, 2]
-    end
-    δ = a - d
-    disc = sqrt(muladd(δ, δ, 4 * abs2(b)))
-    t = (a + d)
-    λ1 = (t - disc) / 2
-    λ2 = (t + disc) / 2
-    return Float64[λ1, λ2]
-end
-
 function get_mean_last(
     data::AbstractVector{T},
     last_n::Integer
