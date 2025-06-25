@@ -1,11 +1,9 @@
 # fast average values of pauli matrices of a qubit (or 2)
 avg_z(ρ::AbstractMatrix{<:Number}) = real(ρ[1, 1] - ρ[2, 2])
-avg_z(ρ_population::AbstractVector{<:Real}) =
-    ρ_population[1] - ρ_population[2]
+avg_z(ρ_population::AbstractVector{<:Real}) = ρ_population[1] - ρ_population[2]
 avg_x(ρ::AbstractMatrix{<:Number}) = real(ρ[1, 2] + ρ[2, 1])
 avg_y(ρ::AbstractMatrix{<:Number}) = real(im * (ρ[1, 2] - ρ[2, 1]))
-avg_zz(ρ::AbstractMatrix{<:Number}) =
-    real(ρ[1, 1] - ρ[2, 2] - ρ[3, 3] + ρ[4, 4])
+avg_zz(ρ::AbstractMatrix{<:Number}) = real(ρ[1, 1] - ρ[2, 2] - ρ[3, 3] + ρ[4, 4])
 
 # creates a unitary matrix from the hamiltonian
 function get_unitary(H::AbstractMatrix{T}, δt::Real) where {T<:Number}
@@ -20,8 +18,7 @@ function get_probabilities(ψ::AbstractVector{T}) where {T<:Number}
 end
 
 function get_probabilities!(
-    probs::AbstractVector{S},
-    ψ::AbstractVector{T}
+    probs::AbstractVector{S}, ψ::AbstractVector{T}
 ) where {T<:Number,S<:Real}
     @inbounds for i in eachindex(probs)
         probs[i] = abs2(ψ[i])
@@ -35,8 +32,7 @@ function get_probabilities(ρ::AbstractMatrix{T}) where {T<:Number}
 end
 
 function get_probabilities!(
-    probs::AbstractVector{S},
-    ρ::AbstractMatrix{T}
+    probs::AbstractVector{S}, ρ::AbstractMatrix{T}
 ) where {T<:Number,S<:Real}
     @inbounds for i in eachindex(probs)
         probs[i] = real(ρ[i, i])

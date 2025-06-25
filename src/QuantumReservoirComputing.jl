@@ -1,8 +1,7 @@
 module QuantumReservoirComputing
 
 # Standard library imports
-using LinearAlgebra:
-    qr!, diag, Diagonal, eigvals, Hermitian, I, eigen, kron!, kron
+using LinearAlgebra: qr!, diag, Diagonal, eigvals, Hermitian, I, eigen, kron!, kron
 using Random: AbstractRNG, default_rng, rand!
 using Statistics: mean, std
 using Base.Threads: @threads
@@ -32,8 +31,7 @@ export ⊗, ⊕, direct_sum, eigvals_2
 # === QUANTUM CONSTANTS (foundation layer) ===
 # constants useful for qubits, common operators
 include("quantum/constants.jl")
-export ket_0, ket_1, ket_p, ket_m
-export rho_0, rho_1, rho_mix, rho_p, rho_m
+export ket_0, ket_1, ket_p, ket_m, rho_0, rho_1, rho_mix, rho_p, rho_m
 export sig_x, sig_y, sig_z, sig_p, sig_m, eye2
 
 # === QUANTUM UTILITIES (depends on constants) ===

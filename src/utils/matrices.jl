@@ -1,26 +1,18 @@
-const ⊗ = kron
-const ⊕ = directsum
-
 function directsum!(
-    C::AbstractMatrix{T},
-    A::AbstractMatrix{T},
-    B::AbstractMatrix{T}
+    C::AbstractMatrix{T}, A::AbstractMatrix{T}, B::AbstractMatrix{T}
 ) where {T<:Number}
     m, n = size(A)
     p, q = size(B)
     @inbounds begin
-        fill!(view(C, 1:m, n+1:n+q), zero(T))
-        fill!(view(C, m+1:m+p, 1:n), zero(T))
+        fill!(view(C, 1:m, (n + 1):(n + q)), zero(T))
+        fill!(view(C, (m + 1):(m + p), 1:n), zero(T))
         copyto!(view(C, 1:m, 1:n), A)
-        copyto!(view(C, m+1:m+p, n+1:n+q), B)
+        copyto!(view(C, (m + 1):(m + p), (n + 1):(n + q)), B)
     end
     return C
 end
 
-function directsum(
-    A::AbstractMatrix{T},
-    B::AbstractMatrix{T}
-) where {T<:Number}
+function directsum(A::AbstractMatrix{T}, B::AbstractMatrix{T}) where {T<:Number}
     m, n = size(A)
     p, q = size(B)
     C = Matrix{T}(undef, m + p, n + q)
@@ -30,6 +22,9 @@ end
 function directsum(a, b, c, xs...)
     Base.afoldl(directsum, directsum(directsum(a, b), c), xs...)
 end
+
+const ⊗ = kron
+const ⊕ = directsum
 
 function eigvals_2(mat::AbstractMatrix{T}) where {T<:Number}
     @inbounds begin

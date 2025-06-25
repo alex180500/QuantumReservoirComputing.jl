@@ -8,7 +8,7 @@ function count_unique(arr::AbstractVector{T}) where {T<:Integer}
     m, M = extrema(arr)
     cu = zeros(Int, M - m + 1)
     @inbounds for i in eachindex(arr)
-        cu[arr[i]-m+1] += 1
+        cu[arr[i] - m + 1] += 1
     end
     return cu
 end
@@ -18,17 +18,12 @@ function count_unique_dict(arr::AbstractVector{T}) where {T<:Integer}
     return Pair.(eachindex(cu) .+ minimum(arr) .- 1, cu)
 end
 
-function get_mean_last(
-    data::AbstractVector{T},
-    last_n::Integer
-) where {T<:Real}
-    mean(data[end-last_n:end])
+function get_mean_last(data::AbstractVector{T}, last_n::Integer) where {T<:Real}
+    mean(data[(end - last_n):end])
 end
 
 function get_average_data(
-    data::AbstractMatrix{T},
-    last_n::Integer=size(data, 1);
-    return_std::Bool=true
+    data::AbstractMatrix{T}, last_n::Integer=size(data, 1); return_std::Bool=true
 ) where {T<:Real}
     n_ensemble = size(data, 2)
     data_vec = Vector{Float64}(undef, n_ensemble)

@@ -1,8 +1,5 @@
 function train_epoch!(
-    model::Flux.Chain,
-    data::Flux.DataLoader,
-    rule::NamedTuple,
-    loss::Function
+    model::Flux.Chain, data::Flux.DataLoader, rule::NamedTuple, loss::Function
 )
     epoch_loss = zero(Float32)
     for (x_batch, y_batch) in data
@@ -19,7 +16,7 @@ function train_epoch!(
     model::Flux.Chain,
     data::Tuple{AbstractMatrix,Flux.OneHotArrays.OneHotMatrix},
     rule::NamedTuple,
-    loss::Function
+    loss::Function,
 )
     loss_val, grads = Flux.withgradient(model) do m
         loss(m, data[1], data[2])
@@ -56,9 +53,7 @@ function nn_layer(
         train_data_loader = (data_train, y_train_onehot)
     else
         train_data_loader = Flux.DataLoader(
-            (data_train, y_train_onehot),
-            batchsize=batchsize,
-            shuffle=minibatch_shuffle
+            (data_train, y_train_onehot); batchsize=batchsize, shuffle=minibatch_shuffle
         )
     end
 
@@ -68,24 +63,21 @@ function nn_layer(
     metrics = Dict(
         "Loss" => epoch_loss,
         "Train Accuracy" => epoch_tr_acc,
-        "Test Accuracy" => epoch_te_acc
+        "Test Accuracy" => epoch_te_acc,
     )
 
-    epoch_progress = Progress(epochs, desc="Training: ", enabled=enable_bar)
+    epoch_progress = Progress(epochs; desc="Training: ", enabled=enable_bar)
     for epoch in 1:epochs
-        epoch_loss[epoch] =
-            train_epoch!(nn_model, train_data_loader, opt_state, loss_fn)
-        epoch_tr_acc[epoch] =
-            accuracy(nn_model, data_train, label_set, labels_train)
-        epoch_te_acc[epoch] =
-            accuracy(nn_model, data_test, label_set, labels_test)
-        next!(epoch_progress, showvalues=ml_showvalues(epoch, metrics))
+        epoch_loss[epoch] = train_epoch!(nn_model, train_data_loader, opt_state, loss_fn)
+        epoch_tr_acc[epoch] = accuracy(nn_model, data_train, label_set, labels_train)
+        epoch_te_acc[epoch] = accuracy(nn_model, data_test, label_set, labels_test)
+        next!(epoch_progress; showvalues=ml_showvalues(epoch, metrics))
     end
 
     return (
         model=nn_model,
         losses=epoch_loss,
         train_accuracies=epoch_tr_acc,
-        test_accuracies=epoch_te_acc
+        test_accuracies=epoch_te_acc,
     )
 end

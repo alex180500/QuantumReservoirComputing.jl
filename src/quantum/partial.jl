@@ -2,15 +2,14 @@
 # taken from https://github.com/iitis/QuantumInformation.jl
 
 function ptrace(
-    ρ::AbstractMatrix{T},
-    ikeep::NTuple{K,Int},
-    idims::NTuple{M,Int}
+    ρ::AbstractMatrix{T}, ikeep::NTuple{K,Int}, idims::NTuple{M,Int}
 ) where {K,M,T<:Number}
     @inbounds keepdim = prod(idims[k] for k in ikeep)
     keep::NTuple{K,Int} = ntuple(k -> M - ikeep[k] + 1, K)
 
-    traceidx::NTuple{2 * M,Int} =
-        ntuple(k -> (k > M ? k - M : k) + (k in keep ? M : 0), 2 * M)
+    traceidx::NTuple{2 * M,Int} = ntuple(
+        k -> (k > M ? k - M : k) + (k in keep ? M : 0), 2 * M
+    )
 
     dims::NTuple{M,Int} = reverse(idims)
     tensor::Array{T,2 * M} = reshape(ρ, dims..., dims...)
@@ -22,24 +21,18 @@ end
 # partial trace for N qudits system
 
 function ptrace(
-    ρ::AbstractMatrix{T},
-    keep::Int,
-    n_sys::Int=get_nsys(ρ, d);
-    d::Int
+    ρ::AbstractMatrix{T}, keep::Int, n_sys::Int=get_nsys(ρ, d); d::Int
 ) where {T<:Number}
-    return ptrace(ρ, (keep,), n_sys, d=d)
+    return ptrace(ρ, (keep,), n_sys; d=d)
 end
 
 function ptrace(
-    ρ::AbstractMatrix{T},
-    ikeep::NTuple{K,Int},
-    n_sys::Int=get_nsys(ρ, d);
-    d::Int,
+    ρ::AbstractMatrix{T}, ikeep::NTuple{K,Int}, n_sys::Int=get_nsys(ρ, d); d::Int
 ) where {K,T<:Number}
     keep = ntuple(k -> n_sys - ikeep[k] + 1, K)
     strides = ntuple(i -> d^(i - 1), n_sys)
     out_strides = ntuple(i -> d^(i - 1), K)
-    remain_strides = ntuple(i -> strides[keep[K-i+1]], K)
+    remain_strides = ntuple(i -> strides[keep[K - i + 1]], K)
     trace_strides = ntuple(j -> begin
         cnt = 0
         for x in n_sys:-1:1
@@ -52,36 +45,25 @@ function ptrace(
         end
     end, n_sys - K)
     state = zeros(ComplexF64, d^K, d^K)
-    _ptrace_dim!(
-        Val{d}(),
-        state,
-        ρ,
-        trace_strides,
-        out_strides,
-        remain_strides
-    )
+    _ptrace_dim!(Val{d}(), state, ρ, trace_strides, out_strides, remain_strides)
     return state
 end
 
 # specialized partial trace for qubits systems
 
 function ptrace_qubits(
-    ρ::AbstractMatrix{T},
-    keep::Int,
-    n_sys::Int=get_nsys(ρ)
+    ρ::AbstractMatrix{T}, keep::Int, n_sys::Int=get_nsys(ρ)
 ) where {T<:Number}
     return ptrace_qubits(ρ, (keep,), n_sys)
 end
 
 function ptrace_qubits(
-    ρ::AbstractMatrix{T},
-    ikeep::NTuple{K,Int},
-    n_sys::Int=get_nsys(ρ)
+    ρ::AbstractMatrix{T}, ikeep::NTuple{K,Int}, n_sys::Int=get_nsys(ρ)
 ) where {K,T<:Number}
     keep = ntuple(k -> n_sys - ikeep[k] + 1, K)
     strides = ntuple(i -> 1 << (i - 1), n_sys)
     out_strides = ntuple(i -> 1 << (i - 1), K)
-    remain_strides = ntuple(i -> strides[keep[K-i+1]], K)
+    remain_strides = ntuple(i -> strides[keep[K - i + 1]], K)
     trace_strides = ntuple(j -> begin
         cnt = 0
         for x in n_sys:-1:1
@@ -94,38 +76,25 @@ function ptrace_qubits(
         end
     end, n_sys - K)
     state = zeros(ComplexF64, 1 << K, 1 << K)
-    _ptrace_dim!(
-        Val{2}(),
-        state,
-        ρ,
-        trace_strides,
-        out_strides,
-        remain_strides
-    )
+    _ptrace_dim!(Val{2}(), state, ρ, trace_strides, out_strides, remain_strides)
     return state
 end
 
 # partial trace that only gets the diagonal
 
 function ptrace_d(
-    ρ::AbstractMatrix{T},
-    keep::Int,
-    n_sys::Int=get_nsys(ρ, d);
-    d::Int
+    ρ::AbstractMatrix{T}, keep::Int, n_sys::Int=get_nsys(ρ, d); d::Int
 ) where {T<:Number}
-    return ptrace_d(ρ, (keep,), n_sys, d=d)
+    return ptrace_d(ρ, (keep,), n_sys; d=d)
 end
 
 function ptrace_d(
-    ρ::AbstractMatrix{T},
-    ikeep::NTuple{K,Int},
-    n_sys::Int=get_nsys(ρ, d);
-    d::Int
+    ρ::AbstractMatrix{T}, ikeep::NTuple{K,Int}, n_sys::Int=get_nsys(ρ, d); d::Int
 ) where {K,T<:Number}
     keep = ntuple(k -> n_sys - ikeep[k] + 1, K)
     strides = ntuple(i -> d^(i - 1), n_sys)
     out_strides = ntuple(i -> d^(i - 1), K)
-    remain_strides = ntuple(i -> strides[keep[K-i+1]], K)
+    remain_strides = ntuple(i -> strides[keep[K - i + 1]], K)
     trace_strides = ntuple(j -> begin
         cnt = 0
         for x in n_sys:-1:1
@@ -138,36 +107,25 @@ function ptrace_d(
         end
     end, n_sys - K)
     diag = zeros(Float64, d^K)
-    _ptrace_diag_dim!(
-        Val{d}(),
-        diag,
-        ρ,
-        trace_strides,
-        out_strides,
-        remain_strides
-    )
+    _ptrace_diag_dim!(Val{d}(), diag, ρ, trace_strides, out_strides, remain_strides)
     return diag
 end
 
 # specialized partial trace for qubits systems that only gets the diagonal
 
 function ptrace_qubits_d(
-    ρ::AbstractMatrix{T},
-    keep::Int,
-    n_sys::Int=get_nsys(ρ)
+    ρ::AbstractMatrix{T}, keep::Int, n_sys::Int=get_nsys(ρ)
 ) where {T<:Number}
     return ptrace_qubits_d(ρ, (keep,), n_sys)
 end
 
 function ptrace_qubits_d(
-    ρ::AbstractMatrix{T},
-    ikeep::NTuple{K,Int},
-    n_sys::Int=get_nsys(ρ)
+    ρ::AbstractMatrix{T}, ikeep::NTuple{K,Int}, n_sys::Int=get_nsys(ρ)
 ) where {K,T<:Number}
     keep = ntuple(k -> n_sys - ikeep[k] + 1, K)
     strides = ntuple(i -> 1 << (i - 1), n_sys)
     out_strides = ntuple(i -> 1 << (i - 1), K)
-    remain_strides = ntuple(i -> strides[keep[K-i+1]], K)
+    remain_strides = ntuple(i -> strides[keep[K - i + 1]], K)
     trace_strides = ntuple(j -> begin
         cnt = 0
         for x in n_sys:-1:1
@@ -180,14 +138,7 @@ function ptrace_qubits_d(
         end
     end, n_sys - K)
     state = zeros(Float64, 1 << K)
-    _ptrace_diag_dim!(
-        Val{2}(),
-        state,
-        ρ,
-        trace_strides,
-        out_strides,
-        remain_strides
-    )
+    _ptrace_diag_dim!(Val{2}(), state, ρ, trace_strides, out_strides, remain_strides)
     return state
 end
 
@@ -216,7 +167,7 @@ end
     dm::AbstractMatrix,
     trace_strides::NTuple{K,Int},
     out_strides::NTuple{M,Int},
-    remain_strides::NTuple{M,Int}
+    remain_strides::NTuple{M,Int},
 ) where {D,K,M}
     quote
         sumc = length(remain_strides) == 0 ? 1 : 1 - sum(remain_strides)
@@ -224,35 +175,41 @@ end
         Base.Cartesian.@nloops(
             $M,
             i,
-            d -> 1:$D,
-            d -> (@inbounds sumc += i_d * remain_strides[d];
-            @inbounds suma += i_d * out_strides[d]), # PRE
-            d -> (@inbounds sumc -= i_d * remain_strides[d];
-            @inbounds suma -= i_d * out_strides[d]), # POST
+            d -> 1:($D),
+            d -> (
+                @inbounds sumc += i_d * remain_strides[d];
+                @inbounds suma += i_d * out_strides[d]
+            ), # PRE
+            d -> (
+                @inbounds sumc -= i_d * remain_strides[d];
+                @inbounds suma -= i_d * out_strides[d]
+            ), # POST
             begin # BODY
-                sumd =
-                    length(remain_strides) == 0 ? 1 : 1 - sum(remain_strides)
+                sumd = length(remain_strides) == 0 ? 1 : 1 - sum(remain_strides)
                 sumb = length(out_strides) == 0 ? 1 : 1 - sum(out_strides)
                 Base.Cartesian.@nloops(
                     $M,
                     j,
-                    d -> 1:$D,
-                    d -> (@inbounds sumd += j_d * remain_strides[d];
-                    @inbounds sumb += j_d * out_strides[d]), # PRE
-                    d -> (@inbounds sumd -= j_d * remain_strides[d];
-                    @inbounds sumb -= j_d * out_strides[d]), # POST
+                    d -> 1:($D),
+                    d -> (
+                        @inbounds sumd += j_d * remain_strides[d];
+                        @inbounds sumb += j_d * out_strides[d]
+                    ), # PRE
+                    d -> (
+                        @inbounds sumd -= j_d * remain_strides[d];
+                        @inbounds sumb -= j_d * out_strides[d]
+                    ), # POST
                     begin
-                        sume =
-                            length(trace_strides) == 0 ? 1 :
-                            1 - sum(trace_strides)
+                        sume = length(trace_strides) == 0 ? 1 : 1 - sum(trace_strides)
                         Base.Cartesian.@nloops(
                             $K,
                             k,
-                            d -> 1:$D,
+                            d -> 1:($D),
                             d -> (@inbounds sume += k_d * trace_strides[d]), # PRE
                             d -> (@inbounds sume -= k_d * trace_strides[d]), # POST
-                            @inbounds out[suma, sumb] +=
-                                dm[sumc+sume-1, sumd+sume-1]
+                            @inbounds out[suma, sumb] += dm[
+                                sumc + sume - 1, sumd + sume - 1
+                            ]
                         )
                     end
                 )
@@ -267,7 +224,7 @@ end
     dm::AbstractMatrix,
     trace_strides::NTuple{K,Int},
     out_strides::NTuple{M,Int},
-    remain_strides::NTuple{M,Int}
+    remain_strides::NTuple{M,Int},
 ) where {D,K,M}
     quote
         sumc = length(remain_strides) == 0 ? 1 : 1 - sum(remain_strides)
@@ -275,21 +232,24 @@ end
         Base.Cartesian.@nloops(
             $M,
             i,
-            d -> 1:$D,
-            d -> (@inbounds sumc += i_d * remain_strides[d];
-            @inbounds suma += i_d * out_strides[d]), # PRE
-            d -> (@inbounds sumc -= i_d * remain_strides[d];
-            @inbounds suma -= i_d * out_strides[d]), # POST
+            d -> 1:($D),
+            d -> (
+                @inbounds sumc += i_d * remain_strides[d];
+                @inbounds suma += i_d * out_strides[d]
+            ), # PRE
+            d -> (
+                @inbounds sumc -= i_d * remain_strides[d];
+                @inbounds suma -= i_d * out_strides[d]
+            ), # POST
             begin # BODY
-                sume =
-                    length(trace_strides) == 0 ? 1 : 1 - sum(trace_strides)
+                sume = length(trace_strides) == 0 ? 1 : 1 - sum(trace_strides)
                 Base.Cartesian.@nloops(
                     $K,
                     k,
-                    d -> 1:$D,
+                    d -> 1:($D),
                     d -> (@inbounds sume += k_d * trace_strides[d]), # PRE
                     d -> (@inbounds sume -= k_d * trace_strides[d]), # POST
-                    @inbounds diag[suma] += dm[sumc+sume-1, sumc+sume-1]
+                    @inbounds diag[suma] += dm[sumc + sume - 1, sumc + sume - 1]
                 )
             end
         )

@@ -1,35 +1,22 @@
-function xx_monroe_pbc(
-    σ_x::LocalOperators{T},
-    nq::Integer;
-    α::Real
-) where {T<:Number}
+function xx_monroe_pbc(σ_x::LocalOperators{T}, nq::Integer; α::Real) where {T<:Number}
     h_term = zeros(ComplexF64, 2^nq, 2^nq)
-    @inbounds for i in 1:nq, j in i+1:nq
+    @inbounds for i in 1:nq, j in (i + 1):nq
         J_ij = min(abs(i - j), nq - abs(i - j))^-α
         h_term += J_ij * (σ_x[i] * σ_x[j])
     end
     return h_term
 end
 
-function xx_monroe_obc(
-    σ_x::LocalOperators{T},
-    nq::Integer;
-    α::Real
-) where {T<:Number}
+function xx_monroe_obc(σ_x::LocalOperators{T}, nq::Integer; α::Real) where {T<:Number}
     h_term = zeros(ComplexF64, 2^nq, 2^nq)
-    @inbounds for i in 1:nq, j in i+1:nq
+    @inbounds for i in 1:nq, j in (i + 1):nq
         J_ij = abs(i - j)^-α
         h_term += J_ij * (σ_x[i] * σ_x[j])
     end
     return h_term
 end
 
-function z_noisy(
-    σ_z::LocalOperators{T},
-    nq::Integer;
-    W::Real,
-    B::Real
-) where {T<:Number}
+function z_noisy(σ_z::LocalOperators{T}, nq::Integer; W::Real, B::Real) where {T<:Number}
     h_term = zeros(ComplexF64, 2^nq, 2^nq)
     rand_D = W == 0 ? zeros(nq) : rand(Uniform(-W, W), nq)
     @inbounds for i in 1:nq
@@ -45,12 +32,12 @@ function h_monroe(
     α::Real,
     W::Real,
     B::Real,
-    pbc::Bool=true
+    pbc::Bool=true,
 ) where {T<:Number}
     if pbc
-        H = xx_monroe_pbc(σ_x, nq, α=α)
+        H = xx_monroe_pbc(σ_x, nq; α=α)
     else
-        H = xx_monroe_obc(σ_x, nq, α=α)
+        H = xx_monroe_obc(σ_x, nq; α=α)
     end
-    return H + z_noisy(σ_z, nq, W=W, B=B)
+    return H + z_noisy(σ_z, nq; W=W, B=B)
 end

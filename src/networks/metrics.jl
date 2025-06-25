@@ -3,8 +3,7 @@ function laplacian_spectrum(A::AbstractMatrix{T}) where {T<:Real}
 end
 
 function algebraic_connectivity(
-    A::AbstractMatrix{T};
-    normalized::Bool=false
+    A::AbstractMatrix{T}; normalized::Bool=false
 ) where {T<:Real}
     λ = laplacian_spectrum(A)
     ac = λ[2]
