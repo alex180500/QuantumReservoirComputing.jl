@@ -1,7 +1,7 @@
 function qelm_compute_networks(
     Λ::AbstractMatrix{T},
     input_states::AbstractMatrix{T},
-    nq::Integer=get_nsys(input_states[:, 1]);
+    nq::Integer=get_nsys(input_states);
     n_states::Integer=size(input_states, 2)
 ) where {T<:Number}
     evol_ψ = Λ * input_states

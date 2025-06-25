@@ -65,7 +65,7 @@ export LocalOperators
 # === NETWORK THEORY (general - minimal dependencies) ===
 # network theory functions
 include("networks/networks.jl")
-export get_link_weight, edges_to_adj
+export get_link_weight, edges_to_adj, get_order
 export degrees, laplacian
 
 # === NETWORK METRICS (depends on network theory) ===

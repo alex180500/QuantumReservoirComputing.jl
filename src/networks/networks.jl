@@ -7,7 +7,7 @@ end
 
 function edges_to_adj(
     edge_list::AbstractVector{T},
-    n_nodes::Integer
+    n_nodes::Integer=get_order(edge_list)
 ) where {T<:Real}
     adj_mat = zeros(T, n_nodes, n_nodes)
     count = 1
@@ -25,4 +25,9 @@ end
 
 function degrees(A::AbstractMatrix{T}) where {T<:Real}
     return vec(sum(A, dims=1))
+end
+
+function get_order(edge_list::AbstractVecOrMat{T}) where {T<:Real}
+    n_edges = size(edge_list, 1)
+    Int((1 + sqrt(1 + 8 * n_edges)) / 2)
 end
