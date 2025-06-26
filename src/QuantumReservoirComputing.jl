@@ -80,6 +80,11 @@ include("networks/q_networks.jl")
 export node_entropies!, correlation_network
 export correlation_edgelist, correlation_edgelist!
 
+# === QRC ENCODINGS (depends on quantum utils and operators) ===
+# encodings functions for quantum reservoir computing
+include("qrc/encodings.jl")
+export encode_qubit, dense_angle_encoding
+
 # === QRC HAMILTONIANS (depends on local operators) ===
 # hamiltonians, unitaries, constructors
 include("qrc/hamiltonians.jl")

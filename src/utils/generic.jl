@@ -19,7 +19,7 @@ function count_unique_dict(arr::AbstractVector{T}) where {T<:Integer}
 end
 
 function get_mean_last(data::AbstractVector{T}, last_n::Integer) where {T<:Real}
-    mean(data[(end - last_n):end])
+    return mean(data[(end - last_n):end])
 end
 
 function get_average_data(
