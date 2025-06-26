@@ -105,13 +105,13 @@ export qelm_compute, qelm_compute_networks
 
 # === MACHINE LEARNING (depends on flux and other) ===
 # machine learning functions
-export pca_analysis, rescale_data, accuracy
 include("ml/functions.jl")
+export pca_analysis, rescale_data, accuracy
 
-export train_epoch!, nn_layer
 include("ml/linear.jl")
+export train_epoch!, nn_layer
 
-export ml_showvalues, @trainprogress
 include("ml/progress.jl")
+export ml_showvalues, @trainprogress
 
 end # module QuantumReservoirComputing
