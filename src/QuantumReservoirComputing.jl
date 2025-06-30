@@ -1,17 +1,17 @@
 module QuantumReservoirComputing
 
 # Standard library imports
-using LinearAlgebra: qr!, diag, Diagonal, eigvals, Hermitian, I, eigen, kron!, kron
-using Random: AbstractRNG, default_rng, rand!
-using Statistics: mean, std
+using LinearAlgebra: Diagonal, Hermitian, I, copyto!, diag, eigvals, kron, kron!, qr!
+using Random: rand!
 using Base.Threads: @threads
 
 # External packages
-using Distributions: Categorical, Uniform, Multinomial
-using Flux
+using Distributions: Categorical, Multinomial, Uniform
+using Flux: Flux, Adam, Chain, Dense
 using Memoization: @memoize
 using MultivariateStats: PCA, fit, transform
 using ProgressMeter: Progress, next!
+using StatsBase: countmap, mean, std
 using TensorOperations: tensortrace
 
 # === UTILITIES (foundation Layer - no dependencies) ===
@@ -21,8 +21,9 @@ export get_bit, get_bit_table
 
 # some generic utils functions
 include("utils/generic.jl")
-export get_mb, count_unique, count_unique_dict
-export get_mean_last, get_average_data
+export get_mb, get_mean_last, get_average_data
+export count_unique, unique_indices
+export unique_approx, count_unique_approx, unique_indices_approx
 
 # some matrix utils function
 include("utils/matrices.jl")

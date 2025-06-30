@@ -13,31 +13,31 @@ function get_unitary(H::AbstractMatrix{T}, δt::Real) where {T<:Number}
 end
 
 function get_probabilities(ψ::AbstractVector{T}) where {T<:Number}
-    probs = Vector{Float64}(undef, length(ψ))
-    return get_probabilities!(probs, ψ)
+    prob_vec = Vector{Float64}(undef, length(ψ))
+    return get_probabilities!(prob_vec, ψ)
 end
 
 function get_probabilities!(
-    probs::AbstractVector{S}, ψ::AbstractVector{T}
+    prob_vec::AbstractVector{S}, ψ::AbstractVector{T}
 ) where {T<:Number,S<:Real}
-    @inbounds for i in eachindex(probs)
-        probs[i] = abs2(ψ[i])
+    @inbounds for i in eachindex(prob_vec)
+        prob_vec[i] = abs2(ψ[i])
     end
-    return probs
+    return prob_vec
 end
 
 function get_probabilities(ρ::AbstractMatrix{T}) where {T<:Number}
-    probs = Vector{Float64}(undef, size(ρ, 1))
-    return get_probabilities!(probs, ρ)
+    prob_vec = Vector{Float64}(undef, size(ρ, 1))
+    return get_probabilities!(prob_vec, ρ)
 end
 
 function get_probabilities!(
-    probs::AbstractVector{S}, ρ::AbstractMatrix{T}
+    prob_vec::AbstractVector{S}, ρ::AbstractMatrix{T}
 ) where {T<:Number,S<:Real}
-    @inbounds for i in eachindex(probs)
-        probs[i] = real(ρ[i, i])
+    @inbounds for i in eachindex(prob_vec)
+        prob_vec[i] = real(ρ[i, i])
     end
-    return probs
+    return prob_vec
 end
 
 function get_bloch_vector(ψ::AbstractVector{T}) where {T<:Number}

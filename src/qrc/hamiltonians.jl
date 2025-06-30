@@ -1,43 +1,78 @@
-function xx_monroe_pbc(σ_x::LocalOperators{T}, nq::Integer; α::Real) where {T<:Number}
-    h_term = zeros(ComplexF64, 2^nq, 2^nq)
-    @inbounds for i in 1:nq, j in (i + 1):nq
-        J_ij = min(abs(i - j), nq - abs(i - j))^-α
-        h_term += J_ij * (σ_x[i] * σ_x[j])
+"""
+    xx_monroe_pbc(σ_x::LocalOperators; α::Real)
+
+Constructs XX interaction Hamiltonian with periodic boundary conditions and power-law decay interactions. Needs `σ_x` as [`LocalOperators`](@ref) of Pauli X operators. The long-range interactions, based on [ADD MONROE CITATION] are defined with coupling strength:
+```math
+J_{ij} = \\abs{i - j}^{-\\alpha}
+```
+
+See also [`xx_monroe_obc`](@ref) for open boundary conditions version.
+"""
+function xx_monroe_pbc(σ_x::LocalOperators{N,T}; α::Real) where {N,T<:Number}
+    ham = zeros(ComplexF64, 2^N, 2^N)
+    @inbounds for i in 1:N, j in (i + 1):N
+        J_ij = min(abs(i - j), N - abs(i - j))^-α
+        ham += J_ij * (σ_x[i] * σ_x[j])
     end
-    return h_term
+    return ham
 end
 
-function xx_monroe_obc(σ_x::LocalOperators{T}, nq::Integer; α::Real) where {T<:Number}
-    h_term = zeros(ComplexF64, 2^nq, 2^nq)
-    @inbounds for i in 1:nq, j in (i + 1):nq
+"""
+    xx_monroe_obc(σ_x::LocalOperators; α::Real)
+
+Open boundary conditions version of the XX interaction Hamiltonian in [`xx_monroe_pbc`](@ref).
+"""
+function xx_monroe_obc(σ_x::LocalOperators{N,T}; α::Real) where {N,T<:Number}
+    ham = zeros(ComplexF64, 2^N, 2^N)
+    @inbounds for i in 1:N, j in (i + 1):N
         J_ij = abs(i - j)^-α
-        h_term += J_ij * (σ_x[i] * σ_x[j])
+        ham += J_ij * (σ_x[i] * σ_x[j])
     end
-    return h_term
+    return ham
 end
 
-function z_noisy(σ_z::LocalOperators{T}, nq::Integer; W::Real, B::Real) where {T<:Number}
-    h_term = zeros(ComplexF64, 2^nq, 2^nq)
-    rand_D = W == 0 ? zeros(nq) : rand(Uniform(-W, W), nq)
-    @inbounds for i in 1:nq
-        h_term += (rand_D[i] + B) / 2 * σ_z[i]
+"""
+    z_noisy(σ_z::LocalOperators; W::Real, B::Real)
+
+Local Z field hamiltonian with disorder. Needs `σ_z` as [`LocalOperators`](@ref) of Pauli Z operators. The local Z terms are:
+```math
+h_i = \\frac{D_i + B}{2}
+```
+where `D_i \\sim \\text{Unif}(-W, W)`.
+"""
+function z_noisy(σ_z::LocalOperators{N,T}; W::Real, B::Real) where {N,T<:Number}
+    ham = zeros(ComplexF64, 2^N, 2^N)
+    D = ifelse(W == 0, zeros(N), rand(Uniform(-W, W), N))
+    @inbounds for i in 1:N
+        ham += (D[i] + B) / 2 * σ_z[i]
     end
-    return h_term
+    return ham
 end
 
+"""
+    h_monroe(σ_x::LocalOperators, σ_z::LocalOperators; α::Real, W::Real, B::Real[, pbc::Bool=true])
+
+Constructs a transverse field ising model (TIM) Hamiltonian with XX interaction and local disordered Z terms. Needs `σ_x` and `σ_z` as [`LocalOperators`](@ref) of Pauli X and Z operators, respectively. If `pbc` is true, periodic boundary conditions are used, otherwise open boundary conditions are applied. The Hamiltonian [ADD MONROE CITATION] is defined as:
+```math
+H = \\sum_{i, j} J_{ij} \\sigma^x_i \\sigma^x_j + \\sum_i \\frac{D_i + B}{2} \\sigma^z_i
+```
+
+See also [`xx_monroe_pbc`](@ref), [`xx_monroe_obc`](@ref), [`z_noisy`](@ref).
+"""
 function h_monroe(
-    σ_x::LocalOperators{T},
-    σ_z::LocalOperators{T},
-    nq::Integer;
+    σ_x::LocalOperators{N,T},
+    σ_z::LocalOperators{N,T};
     α::Real,
     W::Real,
     B::Real,
     pbc::Bool=true,
-) where {T<:Number}
+) where {N,T<:Number}
     if pbc
-        H = xx_monroe_pbc(σ_x, nq; α=α)
+        H = xx_monroe_pbc(σ_x; α=α)
     else
-        H = xx_monroe_obc(σ_x, nq; α=α)
+        H = xx_monroe_obc(σ_x; α=α)
     end
-    return H + z_noisy(σ_z, nq; W=W, B=B)
+    return H + z_noisy(σ_z; W=W, B=B)
 end
+
+# TODO: ADD ALL THE METHODS THAT CONSTRUCTS THE LOCALOPERATORS directly

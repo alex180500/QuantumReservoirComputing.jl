@@ -1,3 +1,8 @@
+"""
+    node_entropies!(entropies::AbstractVector, ρ::AbstractMatrix[, n_qubits::Integer=get_nsys(ρ)])
+
+Computes the von Neumann entropy of each qubit in a quantum state. Fills the entropies vector with single-qubit reduced state entropies.
+"""
 function node_entropies!(
     entropies::AbstractVector{S}, ρ::AbstractMatrix{T}, n_qubits::Integer=get_nsys(ρ)
 ) where {T<:Number,S<:Real}
@@ -8,8 +13,13 @@ function node_entropies!(
     return entropies
 end
 
-# creates the adjacency matrix from a quantum state
-# given a correlation function
+"""
+    correlation_network(ρ::AbstractMatrix, correlation::Function[, n_qubits::Integer=get_nsys(ρ)])
+
+Creates a correlation network adjacency matrix from a quantum state.
+
+See also [`correlation_edgelist`](@ref), [`correlation_edgelist!`](@ref). **TODO: add citation.**
+"""
 function correlation_network(
     ρ::AbstractMatrix{T}, correlation::Function, n_qubits::Integer=get_nsys(ρ)
 ) where {T<:Number}
@@ -17,8 +27,13 @@ function correlation_network(
     return edges_to_adj(edge_list, n_qubits)
 end
 
-# creates the edgelist from a quantum state
-# given a correlation function
+"""
+    correlation_edgelist(ρ::AbstractMatrix, correlation::Function[, n_qubits::Integer=get_nsys(ρ)])
+
+Uses the given correlation function to compute pairwise qubit correlations. Returns a vector of pairwise correlation values between all qubit pairs corresponding to the complete graph weighted edgelist.
+
+See also [`correlation_network`](@ref), [`correlation_edgelist!`](@ref). **TODO: add citation.**
+"""
 function correlation_edgelist(
     ρ::AbstractMatrix{T}, correlation::Function, n_qubits::Integer=get_nsys(ρ)
 ) where {T<:Number}
@@ -26,6 +41,13 @@ function correlation_edgelist(
     return correlation_edgelist!(edge_list, ρ, correlation, n_qubits)
 end
 
+"""
+    correlation_edgelist!(edge_list::AbstractVector, ρ::AbstractMatrix, correlation::Function[, n_qubits::Integer=get_nsys(ρ)])
+
+In-place version of `correlation_edgelist` that fills a pre-allocated edge list.
+
+See also [`correlation_network`](@ref), [`correlation_edgelist`](@ref). **TODO: add citation.**
+"""
 function correlation_edgelist!(
     edge_list::AbstractVector{S},
     ρ::AbstractMatrix{T},

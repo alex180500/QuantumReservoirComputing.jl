@@ -1,7 +1,7 @@
 name = "QuantumReservoirComputing"
 uuid = "9262459b-dd6d-4254-9079-ce2b0ece8537"
 authors = ["Alessandro Romancino (@alex180500)"]
-version = "0.0.29"
+version = "0.0.30"
 
 [deps]
 Distributions = "31c24e10-a181-5473-b8eb-7969acd0382f"
@@ -11,7 +11,7 @@ Memoization = "6fafb56a-5788-4b4e-91ca-c0cea6611c73"
 MultivariateStats = "6f286f6a-111f-5878-ab1e-185364afe411"
 ProgressMeter = "92933f4c-e287-5a05-a399-4b506db050ca"
 Random = "9a3f8284-a2c9-5f02-9a11-845980a1fd5c"
-Statistics = "10745b16-79ce-11e8-11f9-7d13ad32a3b2"
+StatsBase = "2913bbd2-ae8a-5f71-8c99-4fb6c76f3a91"
 TensorOperations = "6aa20fa7-93e2-5fca-9bc0-fbd0db3c71a2"
 
 [compat]
@@ -20,5 +20,6 @@ Flux = "0.16"
 Memoization = "0.2"
 MultivariateStats = "0.10"
 ProgressMeter = "1.10"
+StatsBase = "0.34"
 TensorOperations = "5.1"
 julia = "1.11"

@@ -1,4 +1,11 @@
-# TODO this macro works but it slows down the training loop 
+"""
+    @trainprogress(metrics_expr, args...)
+
+Macro that adds a progress bar to training loops with metric display using [`ml_showvalues`](@ref). It takes a metrics dictionary of values that are updated inside the loop (and that will be showed) and then a for loop, showing progress with current metric values. Uses [`ProgressMeter.jl`](https://github.com/timholy/ProgressMeter.jl).
+
+!!! todo
+    This macro is currently slower than the current approach in [`nn_layer`](@ref) and might be optimized. Still, it can be useful for debugging.
+"""
 macro trainprogress(metrics_expr, args...)
     if length(args) == 1
         enabled_expr = true
@@ -22,6 +29,13 @@ macro trainprogress(metrics_expr, args...)
     end
 end
 
+"""
+    ml_showvalues(epoch::Integer, metrics::Dict{String,<:AbstractVector}[; n_digits::Integer=4])
+
+Formats training metrics for display for the progress bar. It truncates the values to a specified number of digits for better readability.
+
+Returns a function that provides metric values rounded to specified digits.
+"""
 function ml_showvalues(
     epoch::Integer, metrics::Dict{String,<:AbstractVector}; n_digits::Integer=4
 )
