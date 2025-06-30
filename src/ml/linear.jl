@@ -43,12 +43,11 @@ end
 Creates and trains a neural network layer on the provided data using the Adam optimizer, softmax activation, and cross-entropy loss function. This function uses [`Flux.jl`](https://fluxml.ai/Flux.jl/stable/) and a progressbar from [`ProgressMeter.jl`](https://github.com/timholy/ProgressMeter.jl).
 
 # Arguments
-* `data::AbstractMatrix`: Input data matrix where columns are samples
-* `labels_train::AbstractVector`: Training labels
-* `labels_test::AbstractVector`: Test labels
-* `label_set=unique(labels_train)`: Set of unique labels (default: `unique(labels_train)`)
-* `train_pos=1:60_000`: Indices for training data
-* `test_pos=60_001:size(data, 2)`: Indices for test data
+* `data_train::AbstractMatrix{<:Real}`: Input training data matrix where columns are samples
+* `data_test::AbstractMatrix{<:Real}`: Input test data matrix where columns are samples
+* `labels_train::AbstractVector{<:Integer}`: Training labels
+* `labels_test::AbstractVector{<:Integer}`: Test labels
+* `label_set=unique(labels_train)`: Set of unique labels for classification, defaults to unique labels in training data
     ## Keyword Arguments
     * `epochs::Integer=100`: Number of training epochs
     * `learn_rate::AbstractFloat=0.01`: Learning rate for Adam optimizer
@@ -63,21 +62,17 @@ Returns a nametuple containing:
 * `test_accuracies`: Vector of test accuracies for each epoch
 """
 function nn_layer(
-    data::AbstractMatrix{T},
+    data_train::AbstractMatrix{T},
+    data_test::AbstractMatrix{T},
     labels_train::AbstractVector{J},
     labels_test::AbstractVector{J},
-    label_set=unique(labels_train),
-    train_pos=1:60_000,
-    test_pos=60_001:size(data, 2);
+    label_set=unique(labels_train);
     epochs::Integer=100,
     learn_rate::AbstractFloat=0.01,
     batchsize::Integer=100,
     minibatch_shuffle::Bool=true,
     enable_bar::Bool=true,
-) where {T<:AbstractFloat,J<:Integer}
-    data_train = data[:, train_pos]
-    data_test = data[:, test_pos]
-
+) where {T<:Real,J<:Integer}
     data_size = size(data_train, 1)
     num_classes = length(label_set)
     nn_model = Chain(Dense(data_size, num_classes))
