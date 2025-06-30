@@ -29,7 +29,7 @@ export unique_approx, count_unique_approx, unique_indices_approx
 # === MATRIX UTILITIES (depends on LinearAlgebra) ===
 # Matrix operations and utilities
 include("utils/matrices.jl")
-export ⊗, ⊕, direct_sum, eigvals_2
+export direct_sum, ⊕, kron_pow, ⊗, eigvals_2
 
 # === QUANTUM CONSTANTS (no external dependencies) ===
 # Quantum state vectors and density matrices
@@ -47,6 +47,7 @@ export get_nsys, max_mixed, eye, eye_qubits
 # Random state generation and Haar measure
 include("quantum/random.jl")
 export haar_unitary, haar_state, haar_dm
+export rand_symmetric_unitary, rand_symmetric_unitary!
 
 # === QUANTUM OPERATORS (no external dependencies) ===
 # Measurement operators and expectation values

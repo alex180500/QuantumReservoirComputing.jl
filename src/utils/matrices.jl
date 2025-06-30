@@ -23,8 +23,17 @@ function directsum(a, b, c, xs...)
     Base.afoldl(directsum, directsum(directsum(a, b), c), xs...)
 end
 
-const ⊗ = kron
 const ⊕ = directsum
+
+function kron_pow(op::AbstractMatrix{T}, N::Integer) where {T<:Number}
+    result = op
+    for _ in 2:N
+        result = kron(result, op)
+    end
+    return result
+end
+
+const ⊗ = kron
 
 function eigvals_2(mat::AbstractMatrix{T}) where {T<:Number}
     @inbounds begin
