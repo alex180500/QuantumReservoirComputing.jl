@@ -41,7 +41,7 @@ export sig_x, sig_y, sig_z, sig_p, sig_m, eye2
 # === QUANTUM UTILITIES (depends on Memoization) ===
 # System utilities and random state generation
 include("quantum/q_utils.jl")
-export get_nsys, max_mixed, eye, eye_qubits
+export get_nsys, max_mixed, eye, eye_qubits, commute
 
 # === QUANTUM RANDOM (depends on LinearAlgebra) ===
 # Random state generation and Haar measure

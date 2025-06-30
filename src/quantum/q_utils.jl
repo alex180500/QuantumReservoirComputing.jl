@@ -11,6 +11,9 @@ end
 # creates an identity matrix of dimension dim
 @memoize eye(dim::Integer) = Matrix{ComplexF64}(I, dim, dim)
 @memoize eye_qubits(n_sys::Integer) = eye(2^n_sys)
-
 # creates a maximally mixed state of dimension dim
 @memoize max_mixed(dim::Integer) = eye(dim) / dim
+
+function commute(A::AbstractMatrix{T}, B::AbstractMatrix{T}; kwargs...) where {T<:Number}
+    return isapprox(A * B, B * A; kwargs...)
+end
