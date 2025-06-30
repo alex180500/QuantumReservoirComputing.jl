@@ -22,9 +22,7 @@ function haar_dm(n::Integer=2)
 end
 
 function rand_symmetric_unitary(S::AbstractMatrix{T}; tol::Real=1e-8) where {T<:ComplexF64}
-    D, V = eigen(S)
-    eig_vals = real(D)
-    blocks = unique_indices_approx(eig_vals, tol)
+    blocks, V = get_symmetry_blocks(S; tol)
     return rand_symmetric_unitary(values(blocks), V)
 end
 
@@ -47,4 +45,11 @@ function rand_symmetric_unitary!(
         Ublock[idxs, idxs] = U_sub
     end
     return V * Ublock * V'
+end
+
+function get_symmetry_blocks(S::AbstractMatrix{T}; tol::Real=1e-8) where {T<:ComplexF64}
+    eigen_decomp = eigen(S)
+    eig_vals = real(eigen_decomp.values)
+    blocks = unique_indices_approx(eig_vals, tol)
+    return blocks, eigen_decomp.vectors
 end

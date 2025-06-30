@@ -47,7 +47,7 @@ export get_nsys, max_mixed, eye, eye_qubits
 # Random state generation and Haar measure
 include("quantum/random.jl")
 export haar_unitary, haar_state, haar_dm
-export rand_symmetric_unitary, rand_symmetric_unitary!
+export rand_symmetric_unitary, rand_symmetric_unitary!, get_symmetry_blocks
 
 # === QUANTUM OPERATORS (no external dependencies) ===
 # Measurement operators and expectation values
