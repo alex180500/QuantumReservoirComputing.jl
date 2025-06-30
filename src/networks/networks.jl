@@ -4,8 +4,8 @@
 Gets the weight of a specific edge in a network adjacency matrix `A`.
 """
 function get_link_weight(
-    A::AbstractMatrix{T}, edge::Union{Tuple{I,I},AbstractVector{I}}
-) where {T<:Real,I<:Integer}
+    A::AbstractMatrix{T}, edge::Union{Tuple{J,J},AbstractVector{J}}
+) where {T<:Real,J<:Integer}
     return A[edge[1], edge[2]]
 end
 

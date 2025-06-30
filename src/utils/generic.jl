@@ -22,7 +22,7 @@ function get_average_data(
 end
 
 # counts the number of unique integers in a vector
-function count_unique(arr::AbstractVector{T}) where {T<:Integer}
+function count_unique(arr::AbstractVector{J}) where {J<:Integer}
     m, M = extrema(arr)
     cu = zeros(Int, M - m + 1)
     @inbounds for i in eachindex(arr)
@@ -31,13 +31,13 @@ function count_unique(arr::AbstractVector{T}) where {T<:Integer}
     return cu
 end
 
-function count_unique(arr::AbstractVector{T}, format::Symbol) where {T<:Integer}
+function count_unique(arr::AbstractVector{J}, format::Symbol) where {J<:Integer}
     cu = count_unique(arr)
     start_idx = minimum(arr) - 1
     if format == :pairs
         return Pair.(eachindex(cu) .+ start_idx, cu)
     elseif format == :dict
-        return Dict{T,Int}(i + start_idx => cu[i] for i in eachindex(cu))
+        return Dict{J,Int}(i + start_idx => cu[i] for i in eachindex(cu))
     else
         return cu
     end

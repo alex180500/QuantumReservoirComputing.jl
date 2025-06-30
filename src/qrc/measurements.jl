@@ -47,9 +47,9 @@ end
 
 function montecarlo_measure!(
     outcomes::AbstractVector{S},
-    rand_states::AbstractVector{I},
+    rand_states::AbstractVector{J},
     state_probs::AbstractVector{T},
-) where {S<:AbstractFloat,I<:Integer,T<:Real}
+) where {S<:AbstractFloat,J<:Integer,T<:Real}
     weight = Categorical(state_probs)
     rand!(weight, rand_states)
     counts = count_unique(rand_states)
@@ -81,10 +81,10 @@ end
 
 function simulated_measure!(
     outcomes::AbstractVector{S},
-    counts::AbstractVector{I},
+    counts::AbstractVector{J},
     state_probs::AbstractVector{T},
     n_samples::Integer,
-) where {S<:AbstractFloat,I<:Integer,T<:Real}
+) where {S<:AbstractFloat,J<:Integer,T<:Real}
     distr = Multinomial(n_samples, state_probs)
     rand!(distr, counts)
     return get_binary_outcomes!(outcomes, counts, n_samples)

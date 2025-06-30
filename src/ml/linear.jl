@@ -64,8 +64,8 @@ Returns a nametuple containing:
 """
 function nn_layer(
     data::AbstractMatrix{T},
-    labels_train::AbstractVector{I},
-    labels_test::AbstractVector{I},
+    labels_train::AbstractVector{J},
+    labels_test::AbstractVector{J},
     label_set=unique(labels_train),
     train_pos=1:60_000,
     test_pos=60_001:size(data, 2);
@@ -74,7 +74,7 @@ function nn_layer(
     batchsize::Integer=100,
     minibatch_shuffle::Bool=true,
     enable_bar::Bool=true,
-) where {T<:AbstractFloat,I<:Integer}
+) where {T<:AbstractFloat,J<:Integer}
     data_train = data[:, train_pos]
     data_test = data[:, test_pos]
 

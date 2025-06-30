@@ -45,7 +45,6 @@ function rescale_data(
     return scaled_train, scaled_test
 end
 
-
 """
     accuracy(model::Flux.Chain, x::AbstractMatrix, classes::AbstractVector, y::AbstractVector)
 
@@ -56,8 +55,8 @@ Returns the fraction of correctly predicted labels.
 function accuracy(
     model::Flux.Chain,
     x::AbstractMatrix{T},
-    classes::AbstractVector{I},
-    y::AbstractVector{I},
-) where {T<:AbstractFloat,I<:Integer}
+    classes::AbstractVector{J},
+    y::AbstractVector{J},
+) where {T<:AbstractFloat,J<:Integer}
     return mean(Flux.onecold(model(x), classes) .== y)
 end
