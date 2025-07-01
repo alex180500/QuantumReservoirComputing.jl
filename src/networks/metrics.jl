@@ -19,3 +19,15 @@ function algebraic_connectivity(
     ac = λ[2]
     return normalized ? ac / maximum(degrees(A)) : ac
 end
+
+"""
+    algebraic_connectivity(edge_list::AbstractVector[; normalized::Bool=false])
+
+Method when the input is an edge list.
+"""
+function algebraic_connectivity(
+    edge_list::AbstractVector{T}; normalized::Bool=false
+) where {T<:Real}
+    A = edges_to_adj(edge_list, get_order(edge_list))
+    return algebraic_connectivity(A; normalized=normalized)
+end
