@@ -3,22 +3,24 @@ function get_mb(item)
     return Base.summarysize(item) / 1e6
 end
 
-function get_mean_last(data::AbstractVector{T}, last_n::Integer) where {T<:Real}
-    return mean(data[(end - last_n):end])
+function get_mean_last(
+    data::AbstractVector{T}, last_n::Integer; return_std::Bool=false
+) where {T<:Real}
+    chosen_data = data[(end - last_n + 1):end]
+    if return_std
+        return mean(chosen_data), std(chosen_data)
+    end
+    return mean(chosen_data)
 end
 
-function get_average_data(
-    data::AbstractMatrix{T}, last_n::Integer=size(data, 1); return_std::Bool=true
+function get_mean_last(
+    data::AbstractMatrix{T}, last_n::Integer; return_std::Bool=false
 ) where {T<:Real}
-    n_ensemble = size(data, 2)
-    data_vec = Vector{Float64}(undef, n_ensemble)
-    @inbounds for i in eachindex(data_vec)
-        data_vec[i] = get_mean_last(data[:, i], last_n)
-    end
     if return_std
+        data_vec = get_mean_last.(eachcol(data), last_n)
         return mean(data_vec), std(data_vec)
     end
-    return mean(data_vec)
+    return mean(data[(end - last_n + 1):end, :])
 end
 
 # counts the number of unique integers in a vector

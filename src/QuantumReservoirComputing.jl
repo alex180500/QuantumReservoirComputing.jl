@@ -22,7 +22,7 @@ export get_bit, get_bit_table
 # === GENERIC UTILITIES (depends on StatsBase) ===
 # Generic utility functions, faster than StatsBase
 include("utils/generic.jl")
-export get_mb, get_mean_last, get_average_data
+export get_mb, get_mean_last
 export count_unique, unique_indices
 export unique_approx, count_unique_approx, unique_indices_approx
 
