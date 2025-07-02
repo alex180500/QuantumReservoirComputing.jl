@@ -102,10 +102,8 @@ export h_monroe, xx_monroe_obc, xx_monroe_pbc, z_noisy
 # === QRC MEASUREMENTS (depends on Distributions) ===
 # Quantum measurement protocols and statistics
 include("qrc/measurements.jl")
-export local_measure, local_measure!
-export montecarlo_measure, montecarlo_measure!
-export simulated_measure, simulated_measure!
-export get_binary_outcomes!
+export QubitSpec, local_measure, local_measure!, montecarlo_measure, montecarlo_measure!
+export measure, measure!, get_binary_outcomes!
 
 # === QRC TOOLS (depends on Base.Threads) ===
 # Simulations function for QELM for pure states
