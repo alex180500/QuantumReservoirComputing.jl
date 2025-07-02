@@ -16,8 +16,13 @@ function get_unitary(H::AbstractMatrix{T}, δt::Real) where {T<:Number}
     return cis(-δt * H)
 end
 
+function get_probabilities(ρ::AbstractMatrix{T}) where {T<:Number}
+    prob_vec = Vector{real(T)}(undef, size(ρ, 1))
+    return get_probabilities!(prob_vec, ρ)
+end
+
 function get_probabilities(ψ::AbstractVector{T}) where {T<:Number}
-    prob_vec = Vector{Float64}(undef, length(ψ))
+    prob_vec = Vector{real(T)}(undef, length(ψ))
     return get_probabilities!(prob_vec, ψ)
 end
 
@@ -28,11 +33,6 @@ function get_probabilities!(
         prob_vec[i] = abs2(ψ[i])
     end
     return prob_vec
-end
-
-function get_probabilities(ρ::AbstractMatrix{T}) where {T<:Number}
-    prob_vec = Vector{Float64}(undef, size(ρ, 1))
-    return get_probabilities!(prob_vec, ρ)
 end
 
 function get_probabilities!(
