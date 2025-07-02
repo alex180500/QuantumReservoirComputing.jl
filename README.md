@@ -7,6 +7,11 @@
     &nbsp;&nbsp;&nbsp;
     <img src="assets/phases.png" width="22%" alt="qrc dynamical phases">
 </div><br>
+<div align="center">
+<a href="https://doi.org/10.5281/zenodo.15783754"><img src="https://zenodo.org/badge/DOI/10.5281/zenodo.15783754.svg" alt="DOI"></a>
+<img alt="GitHub Release" src="https://img.shields.io/github/v/release/alex180500/QuantumReservoirComputing.jl">
+<img alt="GitHub commits since latest release" src="https://img.shields.io/github/commits-since/alex180500/QuantumReservoirComputing.jl/latest">
+</div>
 
 **QuantumReservoirComputing.jl** is a package for quantum reservoir computing (QRC) and quantum extreme learning machines (QELM), written in [Julia](https://julialang.org/) by [_Alessandro Romancino_](https://github.com/alex180500). This package (as for now) provides tools for:
 - Quantum states (especially qubits), quantum measurements, correlations and entanglement
@@ -66,6 +71,25 @@ Training: 100%|█████████████████████�
     Test Accuracy: 0.9468
 ```
 
+## Citations
+
+If you find this package useful in your research, please consider citing it! You can use the following BibTeX entry:
+```bibtex
+@software{QuantumReservoirComputing.jl,
+  author = {Alessandro Romancino},
+  title = {QuantumReservoirComputing.jl: Quantum Reservoir Computing and Quantum Extreme Learning Machine package written in Julia.},
+  month = mar,
+  year = 2025,
+  publisher = {Zenodo},
+  doi = {10.5281/zenodo.15783753},
+  url = {https://doi.org/10.5281/zenodo.15783753},
+}
+```
+_More information can be found in QuantumReservoirComputing.jl Zenodo repository at [https://zenodo.org/record/15783753](https://zenodo.org/record/15783753)._
+
 ## License
 
-This package is distributed under [Apache-2.0 License](LICENSE). If you use my code extensively I would greatly appreciate if you could credit myself by linking my GitHub profile [`@alex180500`](https://github.com/alex180500). _Thanks!_
+This package is distributed under [Apache-2.0 License](LICENSE), Copyright (c) 2025 Alessandro Romancino. This means that you can use the code freely
+
+
+If you use my code extensively I would greatly appreciate if you could credit myself by linking my GitHub profile [`@alex180500`](https://github.com/alex180500). _Thanks!_
