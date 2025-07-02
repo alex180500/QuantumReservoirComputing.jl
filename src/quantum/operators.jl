@@ -1,9 +1,13 @@
 # fast average values of pauli matrices of a qubit (or 2)
 avg_z(ρ::AbstractMatrix{<:Number}) = real(ρ[1, 1] - ρ[2, 2])
-avg_z(ρ_population::AbstractVector{<:Real}) = ρ_population[1] - ρ_population[2]
+avg_z(ψ::AbstractVector{<:Complex}) = abs2(ψ[1]) - abs2(ψ[2])
+avg_z(pops::AbstractVector{<:Real}) = pops[1] - pops[2]
 avg_x(ρ::AbstractMatrix{<:Number}) = real(ρ[1, 2] + ρ[2, 1])
+avg_x(ψ::AbstractVector{<:Complex}) = 2 * real(conj(ψ[1]) * ψ[2])
 avg_y(ρ::AbstractMatrix{<:Number}) = real(im * (ρ[1, 2] - ρ[2, 1]))
+avg_y(ψ::AbstractVector{<:Complex}) = 2 * imag(conj(ψ[2]) * ψ[1])
 avg_zz(ρ::AbstractMatrix{<:Number}) = real(ρ[1, 1] - ρ[2, 2] - ρ[3, 3] + ρ[4, 4])
+avg_zz(ψ::AbstractVector{<:Complex}) = abs2(ψ[1]) - abs2(ψ[2]) - abs2(ψ[3]) + abs2(ψ[4])
 
 # creates a unitary matrix from the hamiltonian
 function get_unitary(H::AbstractMatrix{T}, δt::Real) where {T<:Number}
