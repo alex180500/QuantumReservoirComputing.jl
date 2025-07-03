@@ -5,7 +5,7 @@ Computes the von Neumann entropy of each qubit in a quantum state. Fills the ent
 """
 function node_entropies!(
     entropies::AbstractVector{S}, ρ::AbstractMatrix{T}, n_qubits::Integer=get_nsys(ρ)
-) where {T<:Number,S<:Real}
+) where {S<:Real,T<:Number}
     @inbounds for i in 1:n_qubits
         reduced_ρ = ptrace_qubits(ρ, i, n_qubits)::Matrix{ComplexF64}
         entropies[i] = vn_entropy(reduced_ρ)::S
@@ -20,7 +20,7 @@ Method for when the input is a pure state.
 """
 function node_entropies!(
     entropies::AbstractVector{S}, ψ::AbstractVector{T}, n_qubits::Integer=get_nsys(ψ)
-) where {T<:Number,S<:Real}
+) where {S<:Real,T<:Number}
     return node_entropies!(entropies, ψ * ψ', n_qubits)
 end
 
@@ -64,7 +64,7 @@ function correlation_edgelist!(
     ρ::AbstractMatrix{T},
     correlation::Function,
     n_qubits::Integer=get_nsys(ρ),
-) where {T<:Number,S<:Real}
+) where {S<:Real,T<:Number}
     count = 1
     @inbounds for i in 1:n_qubits, j in (i + 1):n_qubits
         reduced_ρ = ptrace_qubits(ρ, (i, j), n_qubits)::Matrix{ComplexF64}
