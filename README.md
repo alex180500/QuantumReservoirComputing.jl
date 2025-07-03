@@ -8,7 +8,8 @@
     <img src="assets/phases.png" width="22%" alt="qrc dynamical phases">
 </div><br>
 <div align="center">
-<a href="https://doi.org/10.5281/zenodo.15783754"><img src="https://zenodo.org/badge/DOI/10.5281/zenodo.15783754.svg" alt="DOI"></a>
+<a href="https://doi.org/10.5281/zenodo.15783754"><img alt="DOI" src="https://zenodo.org/badge/DOI/10.5281/zenodo.15783754.svg"></a>
+<img alt="GitHub License" src="https://img.shields.io/github/license/alex180500/QuantumReservoirComputing.jl">
 <img alt="GitHub Release" src="https://img.shields.io/github/v/release/alex180500/QuantumReservoirComputing.jl">
 <img alt="GitHub commits since latest release" src="https://img.shields.io/github/commits-since/alex180500/QuantumReservoirComputing.jl/latest">
 </div><br>
