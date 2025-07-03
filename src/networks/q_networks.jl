@@ -14,6 +14,17 @@ function node_entropies!(
 end
 
 """
+    node_entropies!(entropies::AbstractVector, ψ::AbstractVector[, n_qubits::Integer=get_nsys(ψ)])
+
+Method for when the input is a pure state.
+"""
+function node_entropies!(
+    entropies::AbstractVector{S}, ψ::AbstractVector{T}, n_qubits::Integer=get_nsys(ψ)
+) where {T<:Number,S<:Real}
+    return node_entropies!(entropies, ψ * ψ', n_qubits)
+end
+
+"""
     correlation_network(ρ::AbstractMatrix, correlation::Function[, n_qubits::Integer=get_nsys(ρ)])
 
 Creates a correlation network adjacency matrix from a quantum state.
