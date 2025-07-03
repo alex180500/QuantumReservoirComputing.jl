@@ -9,9 +9,12 @@
 </div><br>
 <div align="center">
 <a href="https://doi.org/10.5281/zenodo.15783754"><img alt="DOI" src="https://zenodo.org/badge/DOI/10.5281/zenodo.15783754.svg"></a>
-<img alt="GitHub License" src="https://img.shields.io/github/license/alex180500/QuantumReservoirComputing.jl">
-<img alt="GitHub Release" src="https://img.shields.io/github/v/release/alex180500/QuantumReservoirComputing.jl">
-<img alt="GitHub commits since latest release" src="https://img.shields.io/github/commits-since/alex180500/QuantumReservoirComputing.jl/latest">
+&nbsp;
+<a href="LICENSE"><img alt="GitHub License" src="https://img.shields.io/github/license/alex180500/QuantumReservoirComputing.jl"></a>
+&nbsp;
+<a href="https://github.com/alex180500/QuantumReservoirComputing.jl/releases/latest"><img alt="GitHub Release" src="https://img.shields.io/github/v/release/alex180500/QuantumReservoirComputing.jl"></a>
+&nbsp;
+<a href="https://github.com/alex180500/QuantumReservoirComputing.jl/releases/latest"><img alt="GitHub commits since latest release" src="https://img.shields.io/github/commits-since/alex180500/QuantumReservoirComputing.jl/latest"></a>
 </div><br>
 
 **QuantumReservoirComputing.jl** is a package for quantum reservoir computing (QRC) and quantum extreme learning machines (QELM), written in [Julia](https://julialang.org/) by [_Alessandro Romancino_](https://github.com/alex180500). This package (as for now) provides tools for:
