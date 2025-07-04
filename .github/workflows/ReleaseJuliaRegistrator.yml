@@ -73,7 +73,7 @@ jobs:
             const sha = context.sha;
             const notes = process.env.NOTES;
             const body = [
-              `testregister`,
+              `@JuliaRegistrator register`,
               ``,
               `Release notes:`,
               ``,
