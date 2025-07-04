@@ -15,7 +15,7 @@ function measure_local_func!(
     n_sys::Integer=get_nsys(ρ),
 ) where {T<:Number,S<:Real}
     @inbounds for i in eachindex(qubits)
-        ρ_red = ptrace_local(ρ, qubits[i], n_sys)
+        ρ_red = ptrace_qubits(ρ, qubits[i], n_sys)
         local_meas[i] = meas(ρ_red)::S
     end
     return local_meas
@@ -27,7 +27,7 @@ function measure_local_func!(
     meas::Function,
     qubits::QubitSpec,
     n_sys::Integer=get_nsys(ψ),
-) where {N,T<:Number,S<:Real}
+) where {T<:Number,S<:Real}
     ρ = ψ * ψ'
     return measure_local_func!(local_meas, ρ, meas, qubits, n_sys)
 end
@@ -64,7 +64,7 @@ function montecarlo_measure_local(
     state::AbstractVecOrMat{T}, n_sys::Integer=get_nsys(ρ); n_samples::Integer=1_000_000
 ) where {T<:Complex}
     state_probs = get_probabilities(state)::Vector{real(T)}
-    return montecarlo_measure_z(state_probs, n_sys; n_samples)
+    return montecarlo_measure_local(state_probs, n_sys; n_samples)
 end
 
 function montecarlo_measure_local(
@@ -74,7 +74,7 @@ function montecarlo_measure_local(
 ) where {T<:Real}
     outcomes = zeros(Float64, n_sys)
     rand_states = Vector{Int}(undef, n_samples)
-    return montecarlo_measure_z!(outcomes, rand_states, state_probs)
+    return montecarlo_measure_local!(outcomes, rand_states, state_probs)
 end
 
 function montecarlo_measure_local!(
@@ -92,7 +92,9 @@ end
 
 # infinite precision measurement just redirect to get_probabilities and get_probabilities!
 measure(state::AbstractVecOrMat{T}) where {T<:Number} = get_probabilities(state)
-function measure!(counts::AbstractVector{S}, state::AbstractVecOrMat{T}) where {T<:Number}
+function measure!(
+    counts::AbstractVector{S}, state::AbstractVecOrMat{T}
+) where {S<:Real,T<:Number}
     return get_probabilities!(counts, state)
 end
 
