@@ -93,4 +93,4 @@ _More information can be found in QuantumReservoirComputing.jl Zenodo repository
 
 ## License
 
-This package is distributed under [Apache-2.0 License](LICENSE), Copyright (c) 2025 Alessandro Romancino. **This means that you can use the code freely for academic, personal, or commercial purposes!** _If you use my code extensively, I would greatly appreciate if you could credit me by linking my GitHub profile [`@alex180500`](https://github.com/alex180500) or just reference me in any way._
+This package is distributed under [Apache-2.0 License](LICENSE). **This means that you can use the code freely for academic, personal, or commercial purposes!** _If you use my code extensively, I would greatly appreciate if you could credit me by linking my GitHub profile [`@alex180500`](https://github.com/alex180500) or just reference me in any way._
