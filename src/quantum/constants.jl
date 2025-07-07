@@ -18,3 +18,6 @@ const sig_m = Matrix{ComplexF64}([0 0; 1 0])
 
 # some other stuff
 const eye2 = Matrix{ComplexF64}([1 0; 0 1])
+const H_gate = Matrix{ComplexF64}([1 1; 1 -1]) / √2
+const T_gate = Matrix{ComplexF64}([1 0; 0 cispi(1 / 4)])
+const S_gate = Matrix{ComplexF64}([1 0; 0 im])
