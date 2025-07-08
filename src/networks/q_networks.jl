@@ -27,9 +27,9 @@ end
 """
     correlation_network(ρ::AbstractMatrix, correlation::Function[, n_qubits::Integer=get_nsys(ρ)])
 
-Creates a correlation network adjacency matrix from a quantum state.
+Creates a correlation network adjacency matrix from a quantum state. (CITE 10.1103/PhysRevLett.119.225301)
 
-See also [`correlation_edgelist`](@ref), [`correlation_edgelist!`](@ref). **TODO: add citation.**
+See also [`correlation_edgelist`](@ref), [`correlation_edgelist!`](@ref).
 """
 function correlation_network(
     ρ::AbstractMatrix{T}, correlation::Function, n_qubits::Integer=get_nsys(ρ)
@@ -41,9 +41,9 @@ end
 """
     correlation_edgelist(ρ::AbstractMatrix, correlation::Function[, n_qubits::Integer=get_nsys(ρ)])
 
-Uses the given correlation function to compute pairwise qubit correlations. Returns a vector of pairwise correlation values between all qubit pairs corresponding to the complete graph weighted edgelist.
+Uses the given correlation function to compute pairwise qubit correlations. Returns a vector of pairwise correlation values between all qubit pairs corresponding to the complete graph weighted edgelist. (CITE 10.1103/PhysRevLett.119.225301)
 
-See also [`correlation_network`](@ref), [`correlation_edgelist!`](@ref). **TODO: add citation.**
+See also [`correlation_network`](@ref), [`correlation_edgelist!`](@ref).
 """
 function correlation_edgelist(
     ρ::AbstractMatrix{T}, correlation::Function, n_qubits::Integer=get_nsys(ρ)
@@ -55,9 +55,9 @@ end
 """
     correlation_edgelist!(edge_list::AbstractVector, ρ::AbstractMatrix, correlation::Function[, n_qubits::Integer=get_nsys(ρ)])
 
-In-place version of `correlation_edgelist` that fills a pre-allocated edge list.
+In-place version of `correlation_edgelist` that fills a pre-allocated edge list. (CITE 10.1103/PhysRevLett.119.225301)
 
-See also [`correlation_network`](@ref), [`correlation_edgelist`](@ref). **TODO: add citation.**
+See also [`correlation_network`](@ref), [`correlation_edgelist`](@ref).
 """
 function correlation_edgelist!(
     edge_list::AbstractVector{S},

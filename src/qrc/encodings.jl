@@ -27,9 +27,7 @@ end
 """
     dense_angle_encoding(data_θ::AbstractMatrix, data_ϕ::AbstractMatrix; t::Real=2)
 
-Method for encoding multiple states at once, each column of `data_θ` and `data_ϕ` will be encoded in one quantum state of ``N`` qubits.
-
-Based on 10.1103/PhysRevApplied.23.044024
+Method for encoding multiple states at once, each column of `data_θ` and `data_ϕ` will be encoded in one quantum state of ``N`` qubits. (CITE 10.1103/PhysRevApplied.23.044024)
 """
 function dense_angle_encoding(
     data_θ::AbstractMatrix{T}, data_ϕ::AbstractMatrix{T}; t::Real=2
