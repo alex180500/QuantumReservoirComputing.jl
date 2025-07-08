@@ -15,6 +15,7 @@
 <a href="https://github.com/alex180500/QuantumReservoirComputing.jl/releases/latest"><img alt="GitHub Release" src="https://img.shields.io/github/v/release/alex180500/QuantumReservoirComputing.jl"></a>
 &nbsp;
 <a href="https://github.com/alex180500/QuantumReservoirComputing.jl/releases/latest"><img alt="GitHub commits since latest release" src="https://img.shields.io/github/commits-since/alex180500/QuantumReservoirComputing.jl/latest"></a>
+<a href=".JuliaFormatter.toml"><img alt="Code style" src="https://img.shields.io/badge/code%20style-blue-blue"></a>
 </div><br>
 
 **QuantumReservoirComputing.jl** is a package for quantum reservoir computing (QRC) and quantum extreme learning machines (QELM), written in [Julia](https://julialang.org/) by [_Alessandro Romancino_](https://github.com/alex180500). This package (as for now) provides tools for:
