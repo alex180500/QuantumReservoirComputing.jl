@@ -1,15 +1,5 @@
 const LocalOperators{N,T<:Number} = NTuple{N,<:AbstractMatrix{T}}
 
-function LocalOperators{N,T}(::UndefInitializer) where {N,T<:Number}
-    dim = 2^N
-    return ntuple(i -> Matrix{T}(undef, dim, dim), N)
-end
-
-function LocalOperators{N,T}(::typeof(zeros)) where {N,T<:Number}
-    dim = 2^N
-    return ntuple(i -> zeros(T, dim, dim), N)
-end
-
 # given an operator op construct a list of local operators
 # for each qubit in the system
 function LocalOperators{N,T}(op::AbstractMatrix) where {N,T<:Number}
@@ -28,6 +18,28 @@ function LocalOperators(op::AbstractMatrix{T}, n_sys::Integer) where {T<:Number}
     return LocalOperators{n_sys,T}(op)
 end
 
-function LocalOperators{N}(op::AbstractMatrix{T}) where {N,T<:Number}
-    return LocalOperators{N,T}(op)
+LocalOperators{N}(op::AbstractMatrix{T}) where {N,T<:Number} = LocalOperators{N,T}(op)
+
+function LocalOperators(::Type{T}, op::AbstractMatrix, n_sys::Integer) where {T<:Number}
+    return LocalOperators{n_sys,T}(op)
+end
+
+# undef initializer
+function LocalOperators{N,T}(::UndefInitializer) where {N,T<:Number}
+    dim = 2^N
+    return ntuple(i -> Matrix{T}(undef, dim, dim), N)
+end
+
+function LocalOperators(::Type{T}, ::UndefInitializer, n_sys::Integer) where {T<:Number}
+    return LocalOperators{n_sys,T}(undef)
+end
+
+# zeros initializer
+function LocalOperators{N,T}(::typeof(zeros)) where {N,T<:Number}
+    dim = 2^N
+    return ntuple(i -> zeros(T, dim, dim), N)
+end
+
+function LocalOperators(::Type{T}, ::typeof(zeros), n_sys::Integer) where {T<:Number}
+    return LocalOperators{n_sys,T}(zeros)
 end
