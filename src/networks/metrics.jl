@@ -8,6 +8,24 @@ function degrees(A::AbstractMatrix{T}) where {T<:Real}
 end
 
 """
+    degrees(edge_list::AbstractVector)
+
+Method when the input is an edge list of weights of a complete graph in order (1-2, 1-3, ..., 2-3, ...).
+"""
+function degrees(edge_list::AbstractVector{T}) where {T<:Real}
+    n = get_order(edge_list)
+    deg = zeros(T, n)
+    count = 1
+    @inbounds for i in 1:n, j in (i + 1):n
+        weight = edge_list[count]
+        deg[i] += weight
+        deg[j] += weight
+        count += 1
+    end
+    return deg
+end
+
+"""
     laplacian(A::AbstractMatrix)
 
 Computes the graph Laplacian matrix from an adjacency matrix `A`.
@@ -42,7 +60,7 @@ end
 """
     algebraic_connectivity(edge_list::AbstractVector[; normalized::Bool=false])
 
-Method when the input is an edge list.
+Method when the input is an edge list of weights of a complete graph in order (1-2, 1-3, ..., 2-3, ...).
 """
 function algebraic_connectivity(
     edge_list::AbstractVector{T}; normalized::Bool=false
