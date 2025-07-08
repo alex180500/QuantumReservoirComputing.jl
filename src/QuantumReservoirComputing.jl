@@ -82,6 +82,7 @@ export degrees, laplacian
 # === NETWORK METRICS (depends on LinearAlgebra) ===
 # network metrics functions
 include("networks/metrics.jl")
+export degrees, laplacian
 export laplacian_spectrum, algebraic_connectivity
 
 # === QUANTUM NETWORKS (no external dependencies) ===

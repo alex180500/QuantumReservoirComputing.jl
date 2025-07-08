@@ -27,25 +27,6 @@ function edges_to_adj(
 end
 
 """
-    laplacian(A::AbstractMatrix)
-
-Computes the graph Laplacian matrix from an adjacency matrix `A`.
-"""
-function laplacian(A::AbstractMatrix{T}) where {T<:Real}
-    D = Diagonal(degrees(A))
-    return D - A
-end
-
-"""
-    degrees(A::AbstractMatrix)
-
-Computes the degree of each node in a graph from its weighted adjacency matrix `A`. It returns the sum of each row.
-"""
-function degrees(A::AbstractMatrix{T}) where {T<:Real}
-    return vec(sum(A; dims=1))
-end
-
-"""
     get_order(edge_list::AbstractVecOrMat)
 
 Determines the number of nodes in a complete graph from the length of its edge list.

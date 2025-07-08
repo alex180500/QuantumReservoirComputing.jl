@@ -1,4 +1,23 @@
 """
+    degrees(A::AbstractMatrix)
+
+Computes the degree of each node in a graph from its weighted adjacency matrix `A`. It returns the sum of each row.
+"""
+function degrees(A::AbstractMatrix{T}) where {T<:Real}
+    return vec(sum(A; dims=1))
+end
+
+"""
+    laplacian(A::AbstractMatrix)
+
+Computes the graph Laplacian matrix from an adjacency matrix `A`.
+"""
+function laplacian(A::AbstractMatrix{T}) where {T<:Real}
+    D = Diagonal(degrees(A))
+    return D - A
+end
+
+"""
     laplacian_spectrum(A::AbstractMatrix)
 
 Returns the eigenvalues of the Laplacian of the adjacency matrix `A`.
