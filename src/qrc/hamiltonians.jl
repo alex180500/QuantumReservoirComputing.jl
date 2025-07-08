@@ -18,6 +18,15 @@ function xx_monroe_pbc(σ_x::LocalOperators{N,T}; α::Real) where {N,T<:Number}
 end
 
 """
+    xx_monroe_pbc(N::Integer; α::Real)
+
+Method that creates [`LocalOperators`](@ref) of `N` Pauli X operators.
+"""
+function xx_monroe_pbc(N::Integer; α::Real)
+    return xx_monroe_pbc(LocalOperators(sig_x, N); α=α)
+end
+
+"""
     xx_monroe_obc(σ_x::LocalOperators; α::Real)
 
 Open boundary conditions version of the XX interaction Hamiltonian in [`xx_monroe_pbc`](@ref).
@@ -29,6 +38,15 @@ function xx_monroe_obc(σ_x::LocalOperators{N,T}; α::Real) where {N,T<:Number}
         ham += J_ij * (σ_x[i] * σ_x[j])
     end
     return ham
+end
+
+"""
+    xx_monroe_obc(N::Integer; α::Real)
+
+Method that creates [`LocalOperators`](@ref) of `N` Pauli X operators.
+"""
+function xx_monroe_obc(N::Integer; α::Real)
+    return xx_monroe_obc(LocalOperators(sig_x, N); α=α)
 end
 
 """
@@ -47,6 +65,15 @@ function z_noisy(σ_z::LocalOperators{N,T}; W::Real, B::Real) where {N,T<:Number
         ham += (D[i] + B) / 2 * σ_z[i]
     end
     return ham
+end
+
+"""
+    z_noisy(N::Integer; W::Real, B::Real)
+
+Method that creates [`LocalOperators`](@ref) of `N` Pauli Z operators.
+"""
+function z_noisy(N::Integer; W::Real, B::Real)
+    return z_noisy(LocalOperators(sig_z, N); W=W, B=B)
 end
 
 """
@@ -75,4 +102,13 @@ function h_monroe(
     return H + z_noisy(σ_z; W=W, B=B)
 end
 
-# TODO: ADD ALL THE METHODS THAT CONSTRUCTS THE LOCALOPERATORS directly
+"""
+    h_monroe(N::Integer; α::Real, W::Real, B::Real[, pbc::Bool=true])
+
+Method that creates [`LocalOperators`](@ref) of `N` Pauli X operators and `N` Pauli Z operators.
+"""
+function h_monroe(N::Integer; α::Real, W::Real, B::Real, pbc::Bool=true)
+    σ_x = LocalOperators(sig_x, N)
+    σ_z = LocalOperators(sig_z, N)
+    return h_monroe(σ_x, σ_z; α=α, W=W, B=B, pbc=pbc)
+end
