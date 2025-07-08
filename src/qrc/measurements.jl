@@ -6,6 +6,8 @@ end
 
 QubitSpec(n::T) where {T<:Integer} = QubitSpec{T}(n)
 
+QubitSpec(::Type{T}, n::Integer) where {T<:Integer} = QubitSpec{T}(n)
+
 # local measurements for the full quantum state
 function measure_local_func!(
     local_meas::AbstractVector{S},
