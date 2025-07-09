@@ -84,6 +84,7 @@ export degrees, laplacian
 include("networks/metrics.jl")
 export degrees, laplacian
 export laplacian_spectrum, algebraic_connectivity
+export global_clustering
 
 # === QUANTUM NETWORKS (no external dependencies) ===
 # Quantum network analysis and correlation networks
