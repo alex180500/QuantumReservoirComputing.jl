@@ -1,5 +1,5 @@
 # this gets the size of a particular object in MB
-function get_mb(item)
+function get_MB(item)
     return Base.summarysize(item) / 1e6
 end
 
