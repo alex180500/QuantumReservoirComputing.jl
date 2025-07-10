@@ -3,17 +3,16 @@
   <source media="(prefers-color-scheme: light)" srcset="./assets/logo-text-black.png">
   <img alt="QuantumReservoirComputing" src="">
 </picture></div>
-<br><br>
+
+# 
+
 <div align="center">
 <a href="https://doi.org/10.5281/zenodo.15783753"><img alt="DOI" src="https://img.shields.io/badge/DOI-10.5281/zenodo.15783753-deepskyblue?logo=zenodo"></a>
 <a href="LICENSE"><img alt="GitHub License" src="https://img.shields.io/github/license/alex180500/QuantumReservoirComputing.jl"></a>
 <a href="https://github.com/JuliaDiff/BlueStyle"><img alt="Code style" src="https://img.shields.io/badge/code%20style-blue-blue"></a>
 <a href="https://github.com/alex180500/QuantumReservoirComputing.jl/releases/latest"><img alt="GitHub Release" src="https://img.shields.io/github/v/release/alex180500/QuantumReservoirComputing.jl"></a>
 <a href="https://github.com/alex180500/QuantumReservoirComputing.jl/releases/latest"><img alt="GitHub commits since latest release" src="https://img.shields.io/github/commits-since/alex180500/QuantumReservoirComputing.jl/latest"></a>
-</div>
-<br>
-
-# QuantumReservoirComputing.jl
+</div><br>
 
 **QuantumReservoirComputing.jl** is a package for quantum reservoir computing (QRC) and quantum extreme learning machines (QELM), written in [Julia](https://julialang.org/) by [_Alessandro Romancino_](https://github.com/alex180500). This package (as for now) provides tools for:
 - Quantum states (especially qubits), quantum measurements, correlations and entanglement
@@ -65,7 +64,7 @@ Finally, we train a simple neural network using the quantum reservoir outputs an
 results = nn_layer(reservoir_outputs, train_y, test_y; rate=0.1, epochs=100);
 ```
 The output will show a bar with training and testing accuracies:
-```
+```jl
 Training: 100%|████████████████████████| Time: 0:00:08
             Epoch: 100
              Loss: 0.9538
