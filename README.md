@@ -1,6 +1,6 @@
 <div align="center"><picture>
-  <source media="(prefers-color-scheme: dark)" srcset="./assets/logo-text-white.png">
-  <source media="(prefers-color-scheme: light)" srcset="./assets/logo-text-black.png">
+  <source media="(prefers-color-scheme: dark)" srcset="./docs/src/assets/logo-text-dark.png">
+  <source media="(prefers-color-scheme: light)" srcset="./docs/src/logo-text-light.png">
   <img alt="QuantumReservoirComputing" src="">
 </picture></div>
 
