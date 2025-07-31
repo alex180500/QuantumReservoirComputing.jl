@@ -36,7 +36,7 @@ export direct_sum, ⊕, kron_pow, ⊗, eigvals_2
 include("quantum/constants.jl")
 export ket_0, ket_1, ket_p, ket_m
 export rho_0, rho_1, rho_mix, rho_p, rho_m
-export sig_x, sig_y, sig_z, sig_p, sig_m
+export pauli_x, pauli_y, pauli_z, pauli_p, pauli_m
 export eye2, H_gate, T_gate, S_gate
 
 # === QUANTUM UTILITIES (depends on Memoization) ===

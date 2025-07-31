@@ -23,7 +23,7 @@ end
 Method that creates [`LocalOperators`](@ref) of `N` Pauli X operators.
 """
 function xx_monroe_pbc(N::Integer; α::Real)
-    return xx_monroe_pbc(LocalOperators(sig_x, N); α=α)
+    return xx_monroe_pbc(LocalOperators(pauli_x, N); α=α)
 end
 
 """
@@ -46,7 +46,7 @@ end
 Method that creates [`LocalOperators`](@ref) of `N` Pauli X operators.
 """
 function xx_monroe_obc(N::Integer; α::Real)
-    return xx_monroe_obc(LocalOperators(sig_x, N); α=α)
+    return xx_monroe_obc(LocalOperators(pauli_x, N); α=α)
 end
 
 """
@@ -73,7 +73,7 @@ end
 Method that creates [`LocalOperators`](@ref) of `N` Pauli Z operators.
 """
 function z_noisy(N::Integer; W::Real, B::Real)
-    return z_noisy(LocalOperators(sig_z, N); W=W, B=B)
+    return z_noisy(LocalOperators(pauli_z, N); W=W, B=B)
 end
 
 """
@@ -108,7 +108,7 @@ end
 Method that creates [`LocalOperators`](@ref) of `N` Pauli X operators and `N` Pauli Z operators.
 """
 function h_monroe(N::Integer; α::Real, W::Real, B::Real, pbc::Bool=true)
-    σ_x = LocalOperators(sig_x, N)
-    σ_z = LocalOperators(sig_z, N)
+    σ_x = LocalOperators(pauli_x, N)
+    σ_z = LocalOperators(pauli_z, N)
     return h_monroe(σ_x, σ_z; α=α, W=W, B=B, pbc=pbc)
 end

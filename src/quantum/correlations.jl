@@ -1,6 +1,6 @@
 # calculates the concurrence of a density matrix
 function concurrence(ρ::AbstractMatrix{T}) where {T<:Number}
-    Y = sig_y ⊗ sig_y
+    Y = pauli_y ⊗ pauli_y
     R = ρ * (Y * conj(ρ) * Y)
     λ = sort(sqrt.(abs.(eigvals(R))); rev=true)
     return max(0.0, λ[1] - λ[2] - λ[3] - λ[4])

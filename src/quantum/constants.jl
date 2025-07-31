@@ -10,11 +10,11 @@ const rho_p = ket_p * ket_p'
 const rho_m = ket_m * ket_m'
 
 # pauli matrices
-const sig_x = Matrix{ComplexF64}([0 1; 1 0])
-const sig_y = Matrix{ComplexF64}([0 -im; im 0])
-const sig_z = Matrix{ComplexF64}([1 0; 0 -1])
-const sig_p = Matrix{ComplexF64}([0 1; 0 0])
-const sig_m = Matrix{ComplexF64}([0 0; 1 0])
+const pauli_x = Matrix{ComplexF64}([0 1; 1 0])
+const pauli_y = Matrix{ComplexF64}([0 -im; im 0])
+const pauli_z = Matrix{ComplexF64}([1 0; 0 -1])
+const pauli_p = Matrix{ComplexF64}([0 1; 0 0])
+const pauli_m = Matrix{ComplexF64}([0 0; 1 0])
 
 # some other stuff
 const eye2 = Matrix{ComplexF64}([1 0; 0 1])
