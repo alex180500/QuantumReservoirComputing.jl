@@ -23,8 +23,8 @@ function get_mean_last(
     return mean(data[(end - last_n + 1):end, :])
 end
 
-# counts the number of unique integers in a vector
-function count_unique(arr::AbstractVector{J}) where {J<:Integer}
+# counts the number of unique integers in a vector and indices
+function count_unique_all(arr::AbstractVector{J}) where {J<:Integer}
     m, M = extrema(arr)
     cu = zeros(Int, M - m + 1)
     @inbounds for i in eachindex(arr)
@@ -33,26 +33,18 @@ function count_unique(arr::AbstractVector{J}) where {J<:Integer}
     return cu
 end
 
-function count_unique(arr::AbstractVector{J}, format::Symbol) where {J<:Integer}
-    cu = count_unique(arr)
-    start_idx = minimum(arr) - 1
-    if format == :pairs
-        return Pair.(eachindex(cu) .+ start_idx, cu)
-    elseif format == :dict
-        return Dict{J,Int}(i + start_idx => cu[i] for i in eachindex(cu))
-    else
-        return cu
-    end
-end
-
-count_unique(arr::AbstractVector) = countmap(arr)
+count_unique(arr::AbstractArray{T}) where {T<:Real} = countmap(arr)
 
 function unique_indices(arr::AbstractArray{T}) where {T<:Real}
     unique_vals = unique(arr)
     return Dict{T,Vector{Int}}(val => findall(==(val), arr) for val in unique_vals)
 end
 
-function unique_approx(arr::AbstractArray{T}, tol::Real=1e-8) where {T<:Real}
+# Internal default tolerance (unexported)
+const DEFAULT_TOL::Float64 = 1e-8
+
+# some functions for approximate values
+function unique_approx(arr::AbstractArray{T}, tol::Real=DEFAULT_TOL) where {T<:Real}
     sorted_arr = sort(arr)
     unique_vals = [sorted_arr[1]]
     for x in sorted_arr[2:end]
@@ -63,12 +55,12 @@ function unique_approx(arr::AbstractArray{T}, tol::Real=1e-8) where {T<:Real}
     return unique_vals
 end
 
-function count_unique_approx(arr::AbstractArray{T}, tol::Real=1e-8) where {T<:Real}
+function count_unique_approx(arr::AbstractArray{T}, tol::Real=DEFAULT_TOL) where {T<:Real}
     unique_vals = unique_approx(arr, tol)
     return Dict{T,Int}(val => count(x -> abs(x - val) < tol, arr) for val in unique_vals)
 end
 
-function unique_indices_approx(arr::AbstractArray{T}, tol::Real=1e-8) where {T<:Real}
+function unique_indices_approx(arr::AbstractArray{T}, tol::Real=DEFAULT_TOL) where {T<:Real}
     unique_vals = unique_approx(arr, tol)
     return Dict{T,Vector{Int}}(
         val => findall(x -> abs(x - val) < tol, arr) for val in unique_vals
