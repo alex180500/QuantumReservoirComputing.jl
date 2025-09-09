@@ -22,7 +22,7 @@ export get_bit, get_bit_table
 # === GENERIC UTILITIES (depends on StatsBase) ===
 # Generic utility functions, faster than StatsBase
 include("utils/generic.jl")
-export get_MB, get_mean_last
+export get_MB, get_mean_last, count_unique_all
 export count_unique, unique_indices
 export unique_approx, count_unique_approx, unique_indices_approx
 
@@ -48,7 +48,7 @@ export get_nsys, max_mixed, eye, eye_qubits, commute
 # Random state generation and Haar measure
 include("quantum/random.jl")
 export haar_unitary, haar_state, haar_dm
-export rand_symmetric_unitary, rand_symmetric_unitary!, get_symmetry_blocks
+export rand_symmetric_unitary, get_symmetry_blocks
 
 # === QUANTUM OPERATORS (no external dependencies) ===
 # Measurement operators and expectation values
