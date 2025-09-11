@@ -1,7 +1,7 @@
 module QuantumReservoirComputing
 
 # Standard library imports
-using LinearAlgebra: Diagonal, Hermitian, I, copyto!, diag, eigen, eigvals, kron, kron!, qr!
+using LinearAlgebra
 using Random: rand!
 using Base.Threads: @threads
 
