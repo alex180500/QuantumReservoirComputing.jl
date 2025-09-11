@@ -43,7 +43,7 @@ export eye2, H_gate, T_gate, S_gate
 # System utilities and random state generation
 include("quantum/q_utils.jl")
 export get_nsys, max_mixed, eye, eye_qubits
-export commute, exp_val
+export isunitary, commute, exp_val
 
 # === QUANTUM RANDOM (depends on LinearAlgebra) ===
 # Random state generation and Haar measure
