@@ -20,15 +20,15 @@ function directsum(A::AbstractMatrix{T}, B::AbstractMatrix{T}) where {T<:Number}
 end
 
 function directsum(a, b, c, xs...)
-    Base.afoldl(directsum, directsum(directsum(a, b), c), xs...)
+    return Base.afoldl(directsum, directsum(directsum(a, b), c), xs...)
 end
 
 const ⊕ = directsum
 
-function kron_pow(op::AbstractMatrix{T}, N::Integer) where {T<:Number}
-    result = op
+function kron_pow(A::AbstractVecOrMat{T}, N::Integer) where {T<:Number}
+    result = A
     for _ in 2:N
-        result = kron(result, op)
+        result = kron(result, A)
     end
     return result
 end
