@@ -29,34 +29,35 @@ export unique_approx, count_unique_approx, unique_indices_approx
 # === MATRIX UTILITIES (depends on LinearAlgebra) ===
 # Matrix operations and utilities
 include("utils/matrices.jl")
-export direct_sum, ⊕, kron_pow, ⊗, eigvals_2
+export ⊗, kronpow, eigvals_2
+export directsum, directsum!, ⊕
 
-# === QUANTUM CONSTANTS (no external dependencies) ===
+# === QUANTUM CONSTRUCTORS (depends on Memoization) ===
 # Quantum state vectors and density matrices
-include("quantum/constants.jl")
+include("quantum/constructors.jl")
 export ket_0, ket_1, ket_p, ket_m
-export rho_0, rho_1, rho_mix, rho_p, rho_m
+export rho_0, rho_1, rho_mix
 export pauli_x, pauli_y, pauli_z, pauli_p, pauli_m
-export eye2, H_gate, T_gate, S_gate
+export H_gate, T_gate, S_gate
+export eye2, eye, eye_qubits, max_mixed
 
-# === QUANTUM UTILITIES (depends on Memoization) ===
-# System utilities and random state generation
-include("quantum/q_utils.jl")
-export get_nsys, max_mixed, eye, eye_qubits
-export isunitary, commute, exp_val
+# === QUANTUM OPERATOR UTILS (depends on LinearAlgebra) ===
+# Utilities for quantum operators
+include("quantum/utils_operators.jl")
+export get_unitary, isunitary, commute, exp_val
+
+# === QUANTUM STATE UTILS (no external dependencies) ===
+# Expectation values, number of qubits and other stuff
+include("quantum/utils_states.jl")
+export get_nsys, avg_z, avg_x, avg_y, avg_zz
+export get_probabilities, get_probabilities!
+export get_bloch_vector
 
 # === QUANTUM RANDOM (depends on LinearAlgebra) ===
 # Random state generation and Haar measure
 include("quantum/random.jl")
 export haar_unitary, haar_state, haar_dm
 export rand_symmetric_unitary, get_symmetry_blocks
-
-# === QUANTUM OPERATORS (no external dependencies) ===
-# Measurement operators and expectation values
-include("quantum/operators.jl")
-export avg_z, avg_x, avg_y, avg_zz
-export get_unitary, get_probabilities, get_probabilities!
-export get_bloch_vector
 
 # === PARTIAL OPERATIONS (depends on Base.Cartesian, TensorOperations) ===
 # Partial trace operations
@@ -76,9 +77,8 @@ export LocalOperators
 
 # === NETWORK THEORY (depends on LinearAlgebra) ===
 # Basic network operations and graph theory
-include("networks/networks.jl")
+include("networks/utils_nets.jl")
 export get_link_weight, edges_to_adj, get_order
-export degrees, laplacian
 
 # === NETWORK METRICS (depends on LinearAlgebra) ===
 # network metrics functions
@@ -89,7 +89,7 @@ export global_clustering
 
 # === QUANTUM NETWORKS (no external dependencies) ===
 # Quantum network analysis and correlation networks
-include("networks/q_networks.jl")
+include("networks/quantum_nets.jl")
 export node_entropies!, correlation_network
 export correlation_edgelist, correlation_edgelist!
 

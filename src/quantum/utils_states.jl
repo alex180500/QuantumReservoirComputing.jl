@@ -1,20 +1,22 @@
+# given a matrix or vector, this function returns the number of qubits
+function get_nsys(mat::AbstractVecOrMat{T}) where {T<:Number}
+    return Int(log2(size(mat, 1)))
+end
+
+# given a matrix or vector, this function returns the number of qudits of dimension d
+function get_nsys(mat::AbstractVecOrMat{T}, d::Integer) where {T<:Number}
+    return Int(log(d, size(mat, 1)))
+end
+
 # fast average values of pauli matrices of a qubit (or 2)
 avg_z(ρ::AbstractMatrix{<:Number}) = real(ρ[1, 1] - ρ[2, 2])
-avg_z(ψ::AbstractVector{<:Complex}) = abs2(ψ[1]) - abs2(ψ[2])
-avg_z(pops::AbstractVector{<:Real}) = pops[1] - pops[2]
+avg_z(ψ::AbstractVector{<:Number}) = abs2(ψ[1]) - abs2(ψ[2])
 avg_x(ρ::AbstractMatrix{<:Number}) = real(ρ[1, 2] + ρ[2, 1])
-avg_x(ψ::AbstractVector{<:Complex}) = 2 * real(conj(ψ[1]) * ψ[2])
+avg_x(ψ::AbstractVector{<:Number}) = 2 * real(conj(ψ[1]) * ψ[2])
 avg_y(ρ::AbstractMatrix{<:Number}) = real(im * (ρ[1, 2] - ρ[2, 1]))
-avg_y(ψ::AbstractVector{<:Complex}) = 2 * imag(conj(ψ[2]) * ψ[1])
+avg_y(ψ::AbstractVector{<:Number}) = 2 * imag(conj(ψ[2]) * ψ[1])
 avg_zz(ρ::AbstractMatrix{<:Number}) = real(ρ[1, 1] - ρ[2, 2] - ρ[3, 3] + ρ[4, 4])
-avg_zz(ψ::AbstractVector{<:Complex}) = abs2(ψ[1]) - abs2(ψ[2]) - abs2(ψ[3]) + abs2(ψ[4])
-
-# creates a unitary matrix from the hamiltonian
-function get_unitary(H::AbstractMatrix{T}, δt::Real) where {T<:Number}
-    # h_eigvals, h_eigvecs = eigen(H)
-    # return h_eigvecs * exp(Diagonal(-im * δt .* h_eigvals)) * h_eigvecs'
-    return cis(-δt * H)
-end
+avg_zz(ψ::AbstractVector{<:Number}) = abs2(ψ[1]) - abs2(ψ[2]) - abs2(ψ[3]) + abs2(ψ[4])
 
 function get_probabilities(ρ::AbstractMatrix{T}) where {T<:Number}
     prob_vec = Vector{real(T)}(undef, size(ρ, 1))

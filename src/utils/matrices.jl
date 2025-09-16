@@ -25,7 +25,7 @@ end
 
 const ⊕ = directsum
 
-function kron_pow(A::AbstractVecOrMat{T}, N::Integer) where {T<:Number}
+function kronpow(A::AbstractVecOrMat{T}, N::Integer) where {T<:Number}
     result = A
     for _ in 2:N
         result = kron(result, A)
