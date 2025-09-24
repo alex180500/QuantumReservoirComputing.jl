@@ -27,11 +27,19 @@ function edges_to_adj(
 end
 
 """
+    get_order(n_edges::Integer)
+
+Determines the number of nodes from the number of edges of a complete graph.
+"""
+function get_order(n_edges::Integer)
+    return Int((1 + sqrt(1 + 8 * n_edges)) / 2)
+end
+
+"""
     get_order(edge_list::AbstractVecOrMat)
 
-Determines the number of nodes in a complete graph from the length of its edge list.
+Method that determines the number of nodes in a complete graph from the length of its edge list.
 """
 function get_order(edge_list::AbstractVecOrMat{T}) where {T<:Real}
-    n_edges = size(edge_list, 1)
-    return Int((1 + sqrt(1 + 8 * n_edges)) / 2)
+    return get_order(size(edge_list, 1))
 end
