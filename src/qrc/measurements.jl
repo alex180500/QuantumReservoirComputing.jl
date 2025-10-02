@@ -52,6 +52,21 @@ function measure_local!(
     return get_binary_outcomes!(outcomes, counts, n_samples)
 end
 
+# finite statistics if starting with the probability
+function measure_probs(state_probs::AbstractVector{T}, n_samples::Integer) where {T<:Real}
+    counts = Vector{Int}(undef, size(state_probs, 1))
+    return measure_probs!(counts, state_probs, n_samples)
+end
+
+function measure_probs!(
+    counts::AbstractVector{S}, state_probs::AbstractVector{T}, n_samples::Integer
+) where {S<:Real,T<:Real}
+    distr = Multinomial(n_samples, state_probs)
+    rand!(distr, counts)
+    counts /= n_samples
+    return counts
+end
+
 # common function to get the binary outcomes
 
 function get_binary_outcomes(

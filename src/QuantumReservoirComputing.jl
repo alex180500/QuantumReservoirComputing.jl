@@ -106,7 +106,9 @@ export h_monroe, xx_monroe_obc, xx_monroe_pbc, z_noisy
 # === QRC MEASUREMENTS (depends on Distributions) ===
 # Quantum measurement protocols and statistics
 include("qrc/measurements.jl")
-export measure, measure!, measure_local, measure_local!
+export measure, measure!
+export measure_probs, measure_probs!
+export measure_local, measure_local!
 export measure_local_func, measure_local_func!
 
 # === QRC TOOLS (depends on Base.Threads) ===
