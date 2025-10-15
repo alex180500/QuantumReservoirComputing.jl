@@ -1,3 +1,6 @@
+# Internal default tolerance (unexported)
+const DEFAULT_TOL::Float64 = 1e-8
+
 # this gets the size of a particular object in MB
 function get_MB(item)
     return Base.summarysize(item) / 1e6
@@ -39,9 +42,6 @@ function unique_indices(arr::AbstractArray{T}) where {T<:Real}
     unique_vals = unique(arr)
     return Dict{T,Vector{Int}}(val => findall(==(val), arr) for val in unique_vals)
 end
-
-# Internal default tolerance (unexported)
-const DEFAULT_TOL::Float64 = 1e-8
 
 # some functions for approximate values
 function unique_approx(arr::AbstractArray{T}; tol::Real=DEFAULT_TOL) where {T<:Real}

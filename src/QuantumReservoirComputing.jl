@@ -44,7 +44,8 @@ export eye2, eye, eye_qubits, max_mixed
 # === QUANTUM OPERATOR UTILS (depends on LinearAlgebra) ===
 # Utilities for quantum operators
 include("quantum/utils_operators.jl")
-export get_unitary, isunitary, commute, exp_val
+export get_unitary, exp_val, commute
+export is_unitary, is_hermitian, is_psd, is_complete, is_povm
 
 # === QUANTUM STATE UTILS (no external dependencies) ===
 # Expectation values, number of qubits and other stuff
