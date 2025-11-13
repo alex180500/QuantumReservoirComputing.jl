@@ -6,22 +6,26 @@ function get_MB(item)
     return Base.summarysize(item) / 1e6
 end
 
-function get_mean_last(
+function meanstd(arr)
+    return mean(arr), std(arr)
+end
+
+function mean_last(
     data::AbstractVector{T}, last_n::Integer; return_std::Bool=false
 ) where {T<:Real}
     chosen_data = data[(end - last_n + 1):end]
     if return_std
-        return mean(chosen_data), std(chosen_data)
+        return meanstd(chosen_data)
     end
     return mean(chosen_data)
 end
 
-function get_mean_last(
+function mean_last(
     data::AbstractMatrix{T}, last_n::Integer; return_std::Bool=false
 ) where {T<:Real}
     if return_std
-        data_vec = get_mean_last.(eachcol(data), last_n)
-        return mean(data_vec), std(data_vec)
+        data_vec = mean_last.(eachcol(data), last_n)
+        return meanstd(data_vec)
     end
     return mean(data[(end - last_n + 1):end, :])
 end
