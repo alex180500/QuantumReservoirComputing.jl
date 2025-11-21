@@ -72,7 +72,7 @@ end
 """
     global_clustering(A::AbstractMatrix[; normalized::Bool=true])
 
-Computes the global clustering coefficient of a graph defined by the adjacency matrix `A`. It's calculated as the average strength of every triangle. If `normalized` is true, the adjacency matrix is normalized by the maximum edge weight. (CITE 10.1103/PhysRevE.76.026107)
+Computes the global clustering coefficient of a graph defined by the adjacency matrix `A`. If `normalized` is true, the adjacency matrix is normalized by the maximum edge weight. (CITE 10.1103/PhysRevE.76.026107)
 """
 function global_clustering(A::AbstractMatrix{T}; normalized::Bool=true) where {T<:Real}
     n = size(A, 1)

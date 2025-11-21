@@ -18,12 +18,12 @@
 - Quantum states (especially qubits), quantum measurements, correlations and entanglement
 - Very fast partial trace interface for qubits and general multipartite systems
 - Various quantum utils functions, quantum encodings and quantum hamiltonians
-- QRC and QELM algorithms
+- Basic QRC and QELM algorithms
 - Simple neural networks via [Flux.jl](https://fluxml.ai/Flux.jl/stable/)
 - Some simple complex network and graph theory functions
 
 > [!IMPORTANT]
-> This package is under early development. The API may change frequently, some feature are not yet implemented, and the documentation is still a work in progress. If you have any questions feel free to [open an issue](https://github.com/alex180500/QuantumReservoirComputing.jl/issues/new/choose).
+> This package is under early development. The API may change frequently, some feature are not yet implemented, and the documentation is still a work in progress. If you have any questions feel free to [open an issue](https://github.com/alex180500/QuantumReservoirComputing.jl/issues/new/choose) or contact me via email at [alessandro.romancino@unipa.it](mailto:alessandro.romancino@unipa.it).
 
 ## Example Usage
 
@@ -90,4 +90,6 @@ _More information can be found in QuantumReservoirComputing.jl Zenodo repository
 
 ## License
 
-This package is distributed under [Apache-2.0 License](LICENSE). **This means that you can use the code freely for academic, personal, or commercial purposes!** _If you use my code extensively, I would greatly appreciate if you could credit me by linking my GitHub profile [`@alex180500`](https://github.com/alex180500) or just reference me in any way._
+This package is distributed under [Apache-2.0 License](LICENSE). **This means that you can use the code freely for academic, personal, or commercial purposes!**
+
+_If you use my code extensively, I would greatly appreciate if you could credit me as Alessandro Romancino by linking my GitHub profile [`@alex180500`](https://github.com/alex180500) or just reference me in any way you like._
